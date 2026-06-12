@@ -1,7 +1,7 @@
 # Alunos:
 
-Emerson Salles Rm566856
-Max Santos Rm567714
+Emerson Salles
+Max Santos 
 
 # Subindo o frontend
 
