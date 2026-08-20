@@ -5,14 +5,14 @@ WORKDIR /app
 # Copia todo o projeto
 COPY . .
 
-# Procura o arquivo pom.xml em qualquer subpasta e compila direto dele
-RUN mvn clean package -DskipTests -f $(find . -name pom.xml)
+# Entra na subpasta correta usando aspas para suportar o espaço no nome e compila
+RUN cd "/app/BackEnd/Back End" && mvn clean package -DskipTests
 
 # Etapa de Execução
 FROM eclipse-temurin:17-jdk
 WORKDIR /app
 
-# Copia o .jar gerado em qualquer subpasta target
-COPY --from=build /app/**/target/*.jar app.jar
+# Copia o .jar gerado usando a sintaxe de array/colchetes
+COPY --from=build ["/app/BackEnd/Back End/target/*.jar", "app.jar"]
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
