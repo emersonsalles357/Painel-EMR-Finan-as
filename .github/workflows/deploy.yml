@@ -18,10 +18,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ./FrontEnd
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,9 +29,11 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./FrontEnd
 
       - name: Build
         run: npm run build
+        working-directory: ./FrontEnd
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -43,7 +41,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./FrontEnd/dist
+          path: FrontEnd/dist
 
   deploy:
     environment:
