@@ -20,7 +20,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./Painel-EMR-Finan-as/Painel-EMR-Finan-as-main
+        working-directory: ./Painel-EMR-Finan-as-main
 
     steps:
       - name: Checkout
@@ -43,7 +43,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./Painel-EMR-Finan-as/Painel-EMR-Finan-as-main/dist
+          path: ./Painel-EMR-Finan-as-main/dist
 
   deploy:
     environment:
