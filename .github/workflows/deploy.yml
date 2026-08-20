@@ -18,6 +18,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    # Define a subpasta onde o projeto React realmente se encontra
+    defaults:
+      run:
+        working-directory: ./Painel-EMR-Finan-as-main
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,6 +32,7 @@ jobs:
         with:
           node-version: 20
           cache: npm
+          cache-dependency-path: ./Painel-EMR-Finan-as-main/package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -40,7 +46,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          # Aponta para a pasta dist dentro da subpasta do projeto
+          path: ./Painel-EMR-Finan-as-main/dist
 
   deploy:
     environment:
