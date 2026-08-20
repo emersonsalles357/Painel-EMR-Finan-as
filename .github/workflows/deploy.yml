@@ -35,13 +35,16 @@ jobs:
         run: npm run build
         working-directory: ./FrontEnd
 
+      - name: Verificar se a pasta dist existe
+        run: ls -la ./FrontEnd/dist
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: FrontEnd/dist
+          path: ./FrontEnd/dist
 
   deploy:
     environment:
