@@ -13,7 +13,7 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jdk
 WORKDIR /app
 
-# Copia o .jar gerado na etapa de build para a pasta atual
-COPY --from=build "/app/BackEnd/Back End/target/*.jar" app.jar
+# Copia o .jar gerado usando a sintaxe de colchetes para caminhos com espaço
+COPY --from=build ["/app/BackEnd/Back End/target/*.jar", "app.jar"]
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
