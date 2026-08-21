@@ -6,6 +6,8 @@ import { ToastProvider } from './contexts/ToastContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Sidebar } from './components/Sidebar';
 import { ToastContainer } from './components/ToastContainer';
+
+// Importações das páginas originais
 import { LoginPage } from './pages/LoginPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { GastosPage } from './pages/GastosPage';
@@ -13,6 +15,11 @@ import { RecebimentosPage } from './pages/RecebimentosPage';
 import { InvestimentosPage } from './pages/InvestimentosPage';
 import { PerfilPage } from './pages/PerfilPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+
+// Novas importações adicionadas (certifique-se de que estes arquivos existem na pasta pages)
+import { CadastroPage } from './pages/CadastroPage'; 
+import { RecuperarSenhaPage } from './pages/RecuperarSenhaPage';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/variables.css';
@@ -42,7 +49,14 @@ export default function App() {
           <ToastProvider>
             <ToastContainer />
             <Routes>
+              {/* --- ROTAS PÚBLICAS --- */}
               <Route path="/login" element={<LoginPage />} />
+              
+              {/* Novas rotas públicas adicionadas para resolver o erro 404 */}
+              <Route path="/cadastro" element={<CadastroPage />} />
+              <Route path="/recuperar-senha" element={<RecuperarSenhaPage />} />
+
+              {/* --- ROTAS PROTEGIDAS --- */}
               <Route
                 path="/dashboard"
                 element={
@@ -83,8 +97,12 @@ export default function App() {
                   </ProtectedRoute>
                 }
               />
+              
+              {/* Redirecionamento padrão */}
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
-              <Route path="*" element={<ProtectedRoute><AppLayout><NotFoundPage /></AppLayout></ProtectedRoute>} />
+              
+              {/* Rota 404 (NotFound) - Removido o <ProtectedRoute> para que funcione publicamente */}
+              <Route path="*" element={<AppLayout><NotFoundPage /></AppLayout>} />
             </Routes>
           </ToastProvider>
         </FinancasProvider>
