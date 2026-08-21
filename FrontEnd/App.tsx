@@ -36,7 +36,7 @@ function AppLayout({ children }: { children: ReactNode }) {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/Painel-EMR-Finan-as">
       <AuthProvider>
         <FinancasProvider>
           <ToastProvider>
