@@ -34,6 +34,14 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          VITE_USE_MOCK_API: false
+          VITE_API_BASE_URL: https://painel-emr-financas.onrender.com/api
+
+      - name: Verify API configuration
+        run: |
+          echo "Verificando URL da API no build..."
+          grep -R "painel-emr-financas.onrender.com" dist/assets || true
 
       - name: Verify dist folder
         run: |
