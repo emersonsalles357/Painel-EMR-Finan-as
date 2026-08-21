@@ -27,12 +27,12 @@ export function DashboardPage() {
           <div className="access-panel">
             <div className="emr-mark">EMR</div>
             <div className="access-title mb-3">Acesse sua conta</div>
-            <a href="/perfil" className="btn btn-primary-gradient w-100 py-2">
+            <Link to="/perfil" className="btn btn-primary-gradient w-100 py-2">
               Entrar <i className="bi bi-person-circle ms-2"></i>
-            </a>
+            </Link>
             <div className="d-flex justify-content-between mt-3 small position-relative" style={{ zIndex: 2 }}>
-              <a href="/perfil" className="text-muted-soft">cadastre-se</a>
-              <a href="/perfil" className="text-muted-soft">recuperar senha</a>
+              <Link to="/perfil" className="text-muted-soft">cadastre-se</Link>
+              <Link to="/perfil" className="text-muted-soft">recuperar senha</Link>
             </div>
           </div>
           <div className="assistant-panel">
