@@ -33,7 +33,7 @@ class SecurityHardeningTests {
                 new RuntimeException("erro SQL sensivel"));
 
         assertThat(response.getBody())
-                .containsEntry("mensagem", "Ocorreu um erro interno inesperado");
+                .containsEntry("message", "Ocorreu um erro interno inesperado");
         assertThat(response.getBody().toString()).doesNotContain("SQL", "sensivel");
     }
 }
