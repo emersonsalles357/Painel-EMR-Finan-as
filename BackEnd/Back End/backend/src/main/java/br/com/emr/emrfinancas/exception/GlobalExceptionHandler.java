@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -26,6 +27,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RegraNegocioException.class)
     public ResponseEntity<Map<String, Object>> tratarRegraNegocio(RegraNegocioException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro(exception.getMessage(), HttpStatus.BAD_REQUEST));
+    }
+
+    @ExceptionHandler(EmailJaCadastradoException.class)
+    public ResponseEntity<Map<String, Object>> tratarEmailJaCadastrado(EmailJaCadastradoException exception) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(erro(exception.getMessage(), HttpStatus.CONFLICT));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Map<String, Object>> tratarJsonInvalido(HttpMessageNotReadableException exception) {
+        return ResponseEntity.badRequest().body(erro("Requisicao invalida", HttpStatus.BAD_REQUEST));
     }
 
     @ExceptionHandler(AuthenticationException.class)
