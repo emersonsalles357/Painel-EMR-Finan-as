@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
@@ -29,7 +27,7 @@ public class AuthController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<UsuarioResponse> me(@AuthenticationPrincipal UserDetails principal) {
-        return ResponseEntity.ok(authService.usuarioAutenticado(principal.getUsername()));
+    public ResponseEntity<UsuarioResponse> me() {
+        return ResponseEntity.ok(authService.usuarioAutenticado());
     }
 }

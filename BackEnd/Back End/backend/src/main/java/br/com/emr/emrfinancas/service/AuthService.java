@@ -17,11 +17,14 @@ public class AuthService {
     private final UsuarioRepository usuarioRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final AuthenticatedUserService authenticatedUserService;
 
-    public AuthService(UsuarioRepository usuarioRepository, AuthenticationManager authenticationManager, JwtService jwtService) {
+    public AuthService(UsuarioRepository usuarioRepository, AuthenticationManager authenticationManager,
+                       JwtService jwtService, AuthenticatedUserService authenticatedUserService) {
         this.usuarioRepository = usuarioRepository;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
+        this.authenticatedUserService = authenticatedUserService;
     }
 
     public LoginResponse login(LoginRequest loginRequest) {
@@ -33,7 +36,7 @@ public class AuthService {
                 UsuarioResponse.from(usuario));
     }
 
-    public UsuarioResponse usuarioAutenticado(String email) {
-        return usuarioRepository.findByEmail(email).map(UsuarioResponse::from).orElseThrow();
+    public UsuarioResponse usuarioAutenticado() {
+        return UsuarioResponse.from(authenticatedUserService.getAuthenticatedUser());
     }
 }

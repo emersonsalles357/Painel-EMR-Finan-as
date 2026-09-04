@@ -1,6 +1,7 @@
 package br.com.emr.emrfinancas.controller;
 
-import br.com.emr.emrfinancas.model.Investimento;
+import br.com.emr.emrfinancas.dto.InvestimentoRequest;
+import br.com.emr.emrfinancas.dto.InvestimentoResponse;
 import br.com.emr.emrfinancas.service.InvestimentoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -26,22 +27,22 @@ public class InvestimentoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Investimento>> listar() {
+    public ResponseEntity<List<InvestimentoResponse>> listar() {
         return ResponseEntity.ok(investimentoService.listar());
     }
 
     @GetMapping("/{codigo}")
-    public ResponseEntity<Investimento> buscarPorId(@PathVariable Long codigo) {
+    public ResponseEntity<InvestimentoResponse> buscarPorId(@PathVariable Long codigo) {
         return ResponseEntity.ok(investimentoService.buscarPorId(codigo));
     }
 
     @PostMapping
-    public ResponseEntity<Investimento> cadastrar(@Valid @RequestBody Investimento investimento) {
+    public ResponseEntity<InvestimentoResponse> cadastrar(@Valid @RequestBody InvestimentoRequest investimento) {
         return ResponseEntity.status(HttpStatus.CREATED).body(investimentoService.cadastrar(investimento));
     }
 
     @PutMapping("/{codigo}")
-    public ResponseEntity<Investimento> atualizar(@PathVariable Long codigo, @Valid @RequestBody Investimento investimento) {
+    public ResponseEntity<InvestimentoResponse> atualizar(@PathVariable Long codigo, @Valid @RequestBody InvestimentoRequest investimento) {
         return ResponseEntity.ok(investimentoService.atualizar(codigo, investimento));
     }
 

@@ -1,65 +1,69 @@
 package br.com.emr.emrfinancas.service;
 
+import br.com.emr.emrfinancas.dto.GastoRequest;
+import br.com.emr.emrfinancas.dto.GastoResponse;
 import br.com.emr.emrfinancas.exception.RecursoNaoEncontradoException;
 import br.com.emr.emrfinancas.model.Gasto;
 import br.com.emr.emrfinancas.model.Usuario;
 import br.com.emr.emrfinancas.repository.GastoRepository;
-import br.com.emr.emrfinancas.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class GastoService {
     private final GastoRepository gastoRepository;
-    private final UsuarioRepository usuarioRepository;
+    private final AuthenticatedUserService authenticatedUserService;
 
-    public GastoService(GastoRepository gastoRepository, UsuarioRepository usuarioRepository) {
+    public GastoService(GastoRepository gastoRepository, AuthenticatedUserService authenticatedUserService) {
         this.gastoRepository = gastoRepository;
-        this.usuarioRepository = usuarioRepository;
+        this.authenticatedUserService = authenticatedUserService;
     }
 
-    public List<Gasto> listar() { return gastoRepository.findAll(); }
-
-    public Gasto buscarPorId(Long codigo) {
-        return gastoRepository.findById(codigo)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Gasto nao encontrado"));
+    public List<GastoResponse> listar() {
+        Long usuarioId = authenticatedUserService.getAuthenticatedUser().getCodigo();
+        return gastoRepository.findAllByUsuarioCodigo(usuarioId).stream().map(GastoResponse::from).toList();
     }
 
-    public Gasto cadastrar(Gasto gasto) {
-        preparar(gasto);
-        return gastoRepository.save(gasto);
+    public GastoResponse buscarPorId(Long codigo) {
+        return GastoResponse.from(buscarDoUsuario(codigo));
     }
 
-    public Gasto atualizar(Long codigo, Gasto gastoAtualizado) {
-        Gasto gasto = buscarPorId(codigo);
-        gasto.setDescricao(gastoAtualizado.getDescricao());
-        gasto.setCategoria(gastoAtualizado.getCategoria());
-        gasto.setValor(gastoAtualizado.getValor());
-        gasto.setData(gastoAtualizado.getData());
-        gasto.setFormaPagamento(gastoAtualizado.getFormaPagamento());
-        gasto.setObservacao(gastoAtualizado.getObservacao());
-        gasto.setUsuario(gastoAtualizado.getUsuario());
-        preparar(gasto);
-        return gastoRepository.save(gasto);
+    @Transactional
+    public GastoResponse cadastrar(GastoRequest request) {
+        Usuario usuario = authenticatedUserService.getAuthenticatedUser();
+        Gasto gasto = new Gasto();
+        aplicar(request, gasto);
+        gasto.setUsuario(usuario);
+        return GastoResponse.from(gastoRepository.save(gasto));
     }
 
+    @Transactional
+    public GastoResponse atualizar(Long codigo, GastoRequest request) {
+        Gasto gasto = buscarDoUsuario(codigo);
+        aplicar(request, gasto);
+        return GastoResponse.from(gastoRepository.save(gasto));
+    }
+
+    @Transactional
     public void deletar(Long codigo) {
-        Gasto gasto = buscarPorId(codigo);
-        gastoRepository.delete(gasto);
+        gastoRepository.delete(buscarDoUsuario(codigo));
     }
 
-    private void preparar(Gasto gasto) {
-        if (gasto.getData() == null) gasto.setData(LocalDate.now());
-        if (gasto.getUsuario() == null || gasto.getUsuario().getCodigo() == null) {
-            Usuario usuario = usuarioRepository.findAll().stream().findFirst()
-                    .orElseThrow(() -> new RecursoNaoEncontradoException("Cadastre um usuario antes de cadastrar gastos"));
-            gasto.setUsuario(usuario);
-        } else {
-            Usuario usuario = usuarioRepository.findById(gasto.getUsuario().getCodigo())
-                    .orElseThrow(() -> new RecursoNaoEncontradoException("Usuario informado nao encontrado"));
-            gasto.setUsuario(usuario);
-        }
+    private Gasto buscarDoUsuario(Long codigo) {
+        Long usuarioId = authenticatedUserService.getAuthenticatedUser().getCodigo();
+        return gastoRepository.findByCodigoAndUsuarioCodigo(codigo, usuarioId)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Recurso nao encontrado"));
+    }
+
+    private void aplicar(GastoRequest request, Gasto gasto) {
+        gasto.setDescricao(request.descricao());
+        gasto.setCategoria(request.categoria());
+        gasto.setValor(request.valor());
+        gasto.setData(request.data());
+        gasto.setFormaPagamento(request.formaPagamento());
+        gasto.setObservacao(request.observacao());
     }
 }

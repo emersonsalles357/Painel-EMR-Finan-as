@@ -51,7 +51,7 @@ public class Investimento {
     @Column(name = "DT_APLICACAO", nullable = false)
     private LocalDate dataAplicacao;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CD_USUARIO")
     private Usuario usuario;
 
