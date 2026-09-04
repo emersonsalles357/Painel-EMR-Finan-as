@@ -8,8 +8,8 @@ export function LoginPage() {
   const { showToast } = useToast();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState('admin@emrfinancas.com');
-  const [password, setPassword] = useState('123456');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
 
   const validate = () => {

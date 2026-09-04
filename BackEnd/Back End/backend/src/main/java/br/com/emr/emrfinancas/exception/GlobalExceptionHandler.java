@@ -2,6 +2,8 @@ package br.com.emr.emrfinancas.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,6 +15,8 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler(RecursoNaoEncontradoException.class)
     public ResponseEntity<Map<String, Object>> tratarNaoEncontrado(RecursoNaoEncontradoException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro(exception.getMessage(), HttpStatus.NOT_FOUND));
@@ -36,8 +40,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> tratarErroGeral(Exception exception) {
+        LOGGER.error("Erro interno nao tratado", exception);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(erro("Erro interno: " + exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR));
+                .body(erro("Ocorreu um erro interno inesperado", HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     private Map<String, Object> erro(String mensagem, HttpStatus status) {

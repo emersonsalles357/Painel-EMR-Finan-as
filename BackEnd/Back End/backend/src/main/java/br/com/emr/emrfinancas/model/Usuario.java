@@ -1,5 +1,6 @@
 package br.com.emr.emrfinancas.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,6 +34,7 @@ public class Usuario {
     @NotBlank(message = "A senha e obrigatoria")
     @Size(min = 4, max = 100, message = "A senha deve ter pelo menos 4 caracteres")
     @Column(name = "DS_SENHA", nullable = false, length = 100)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String senha;
 
     public Long getCodigo() { return codigo; }
