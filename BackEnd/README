@@ -1,10 +1,5 @@
-# Alunos:
-Emerson Salles Rm566856
-Max Santos Rm567714
+# Backend EMR Finanças
 
-# Subindo BackEnd
+O backend usa Java 17, Spring Boot 3.2.5, Maven, PostgreSQL e Flyway.
 
- 1. Certifique-se que o Java versão 25 está instalado
- 2. Abra o IntelliJ IDEA
- 3. Selecione o arquivo src/main/java/br/com/emr/emrfinancas/EmrFinancasApplication.java
- 4. No IntelliJ, clique no botão "Run application" no topo da tela
+Consulte o `README.md` na raiz do projeto para configuração de ambiente, banco, execução local, testes e estratégia de migrations.
