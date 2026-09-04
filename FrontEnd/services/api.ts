@@ -6,9 +6,6 @@ export const isMockMode = isMock();
 
 export const authService = {
   async login(email: string, password: string) {
-    if (isMock()) {
-      return mockApi.auth.login(email, password);
-    }
     return realApi.auth.login(email, password);
   },
   logout() {

@@ -58,10 +58,6 @@ export function LoginPage() {
           <button type="submit" className="btn btn-primary-gradient w-100 mt-3 py-2" disabled={loading}>
             {loading ? <><span className="spinner-border spinner-border-sm me-2"></span>Entrando...</> : <>Entrar <i className="bi bi-person-circle ms-2"></i></>}
           </button>
-          <div className="d-flex justify-content-between mt-3 small">
-            <a href="/perfil" className="text-muted-soft">cadastre-se</a>
-            <a href="/perfil" className="text-muted-soft">recuperar senha</a>
-          </div>
         </form>
       </section>
     </main>

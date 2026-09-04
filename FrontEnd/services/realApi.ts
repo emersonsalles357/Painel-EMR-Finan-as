@@ -1,8 +1,8 @@
 import { api } from './_apiClient';
 import type { Gasto, Recebimento, Investimento } from '../types';
 
-function toUser(backend: { codigo: number; nome: string; email: string }): { id: string; name: string; email: string } {
-  return { id: String(backend.codigo), name: backend.nome, email: backend.email };
+function toUser(backend: { id: number; nome: string; email: string; role?: string }): { id: string; name: string; email: string; role?: string } {
+  return { id: String(backend.id), name: backend.nome, email: backend.email, role: backend.role };
 }
 
 function toFrontendRecebimento(b: BackendRecebimento): Recebimento {
@@ -72,10 +72,19 @@ function fromFrontendGasto(g: Partial<Gasto>) {
 export const realApi = {
   auth: {
     async login(email: string, senha: string) {
-      const { data } = await api.post<{ codigo: number; nome: string; email: string; token: string }>(
+      const { data } = await api.post<{
+        accessToken: string;
+        tokenType: string;
+        expiresIn: number;
+        usuario: { id: number; nome: string; email: string; role: string };
+      }>(
         '/auth/login', { email, senha }
       );
-      return { token: data.token, user: toUser(data) };
+      return { token: data.accessToken, user: toUser(data.usuario) };
+    },
+    async me() {
+      const { data } = await api.get<{ id: number; nome: string; email: string; role: string }>('/auth/me');
+      return toUser(data);
     },
   },
 
