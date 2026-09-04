@@ -1,5 +1,6 @@
 package br.com.emr.emrfinancas.service;
 
+import br.com.emr.emrfinancas.dto.UsuarioResponse;
 import br.com.emr.emrfinancas.exception.RecursoNaoEncontradoException;
 import br.com.emr.emrfinancas.exception.RegraNegocioException;
 import br.com.emr.emrfinancas.model.Usuario;
@@ -19,31 +20,37 @@ public class UsuarioService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<Usuario> listar() { return usuarioRepository.findAll(); }
+    public List<UsuarioResponse> listar() {
+        return usuarioRepository.findAll().stream().map(UsuarioResponse::from).toList();
+    }
 
-    public Usuario buscarPorId(Long codigo) {
+    public UsuarioResponse buscarPorId(Long codigo) {
+        return UsuarioResponse.from(buscarEntidade(codigo));
+    }
+
+    private Usuario buscarEntidade(Long codigo) {
         return usuarioRepository.findById(codigo)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Usuario nao encontrado"));
     }
 
-    public Usuario cadastrar(Usuario usuario) {
+    public UsuarioResponse cadastrar(Usuario usuario) {
         usuarioRepository.findByEmail(usuario.getEmail()).ifPresent(u -> {
             throw new RegraNegocioException("Ja existe usuario cadastrado com este e-mail");
         });
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-        return usuarioRepository.save(usuario);
+        return UsuarioResponse.from(usuarioRepository.save(usuario));
     }
 
-    public Usuario atualizar(Long codigo, Usuario usuarioAtualizado) {
-        Usuario usuario = buscarPorId(codigo);
+    public UsuarioResponse atualizar(Long codigo, Usuario usuarioAtualizado) {
+        Usuario usuario = buscarEntidade(codigo);
         usuario.setNome(usuarioAtualizado.getNome());
         usuario.setEmail(usuarioAtualizado.getEmail());
         usuario.setSenha(passwordEncoder.encode(usuarioAtualizado.getSenha()));
-        return usuarioRepository.save(usuario);
+        return UsuarioResponse.from(usuarioRepository.save(usuario));
     }
 
     public void deletar(Long codigo) {
-        Usuario usuario = buscarPorId(codigo);
+        Usuario usuario = buscarEntidade(codigo);
         usuarioRepository.delete(usuario);
     }
 }

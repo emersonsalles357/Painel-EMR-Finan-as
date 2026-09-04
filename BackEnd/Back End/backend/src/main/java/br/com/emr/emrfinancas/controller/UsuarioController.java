@@ -1,5 +1,6 @@
 package br.com.emr.emrfinancas.controller;
 
+import br.com.emr.emrfinancas.dto.UsuarioResponse;
 import br.com.emr.emrfinancas.model.Usuario;
 import br.com.emr.emrfinancas.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -26,22 +27,22 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> listar() {
+    public ResponseEntity<List<UsuarioResponse>> listar() {
         return ResponseEntity.ok(usuarioService.listar());
     }
 
     @GetMapping("/{codigo}")
-    public ResponseEntity<Usuario> buscarPorId(@PathVariable Long codigo) {
+    public ResponseEntity<UsuarioResponse> buscarPorId(@PathVariable Long codigo) {
         return ResponseEntity.ok(usuarioService.buscarPorId(codigo));
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> cadastrar(@Valid @RequestBody Usuario usuario) {
+    public ResponseEntity<UsuarioResponse> cadastrar(@Valid @RequestBody Usuario usuario) {
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.cadastrar(usuario));
     }
 
     @PutMapping("/{codigo}")
-    public ResponseEntity<Usuario> atualizar(@PathVariable Long codigo, @Valid @RequestBody Usuario usuario) {
+    public ResponseEntity<UsuarioResponse> atualizar(@PathVariable Long codigo, @Valid @RequestBody Usuario usuario) {
         return ResponseEntity.ok(usuarioService.atualizar(codigo, usuario));
     }
 
