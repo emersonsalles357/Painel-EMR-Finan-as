@@ -7,6 +7,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { Sidebar } from './components/Sidebar';
 import { ToastContainer } from './components/ToastContainer';
 import { LoginPage } from './pages/LoginPage';
+import { RegisterPage } from './pages/RegisterPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { GastosPage } from './pages/GastosPage';
 import { RecebimentosPage } from './pages/RecebimentosPage';
@@ -43,6 +44,7 @@ export default function App() {
             <ToastContainer />
             <Routes>
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/cadastro" element={<RegisterPage />} />
               <Route
                 path="/dashboard"
                 element={

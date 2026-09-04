@@ -5,6 +5,9 @@ import type { Gasto, Recebimento, Investimento } from '../types';
 export const isMockMode = isMock();
 
 export const authService = {
+  async register(request: { nome: string; email: string; senha: string }) {
+    return realApi.auth.register(request);
+  },
   async login(email: string, password: string) {
     return realApi.auth.login(email, password);
   },

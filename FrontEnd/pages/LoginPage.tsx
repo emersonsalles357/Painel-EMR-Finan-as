@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../contexts/ToastContext';
 
@@ -7,6 +8,14 @@ export function LoginPage() {
   const { login, loading } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.registrationSuccess) {
+      showToast('Conta criada com sucesso. Faça seu login.');
+      navigate(location.pathname, { replace: true, state: null });
+    }
+  }, [location.pathname, location.state, navigate, showToast]);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -58,6 +67,9 @@ export function LoginPage() {
           <button type="submit" className="btn btn-primary-gradient w-100 mt-3 py-2" disabled={loading}>
             {loading ? <><span className="spinner-border spinner-border-sm me-2"></span>Entrando...</> : <>Entrar <i className="bi bi-person-circle ms-2"></i></>}
           </button>
+          <p className="auth-switch mb-0 mt-3">
+            Ainda não tem uma conta? <Link to="/cadastro">Criar conta</Link>
+          </p>
         </form>
       </section>
     </main>

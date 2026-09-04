@@ -71,6 +71,12 @@ function fromFrontendGasto(g: Partial<Gasto>) {
 
 export const realApi = {
   auth: {
+    async register(request: { nome: string; email: string; senha: string }) {
+      const { data } = await api.post<{
+        id: number; nome: string; email: string; mensagem: string;
+      }>('/auth/register', request);
+      return data;
+    },
     async login(email: string, senha: string) {
       const { data } = await api.post<{
         accessToken: string;
