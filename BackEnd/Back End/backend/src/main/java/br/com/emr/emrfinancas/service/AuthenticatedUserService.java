@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticatedUserService {
     private final UsuarioRepository usuarioRepository;
+    private final EmailNormalizer emailNormalizer;
 
-    public AuthenticatedUserService(UsuarioRepository usuarioRepository) {
+    public AuthenticatedUserService(UsuarioRepository usuarioRepository, EmailNormalizer emailNormalizer) {
         this.usuarioRepository = usuarioRepository;
+        this.emailNormalizer = emailNormalizer;
     }
 
     public Usuario getAuthenticatedUser() {
@@ -22,7 +24,7 @@ public class AuthenticatedUserService {
             throw new AuthenticationCredentialsNotFoundException("Autenticacao obrigatoria.");
         }
 
-        return usuarioRepository.findByEmail(authentication.getName())
+        return usuarioRepository.findByEmailIgnoreCase(emailNormalizer.normalize(authentication.getName()))
                 .orElseThrow(() -> new AuthenticationCredentialsNotFoundException("Autenticacao invalida."));
     }
 }

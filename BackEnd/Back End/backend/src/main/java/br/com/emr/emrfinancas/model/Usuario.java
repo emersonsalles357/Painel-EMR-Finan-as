@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
@@ -37,6 +39,10 @@ public class Usuario {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String senha;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "DS_ROLE", nullable = false, length = 20)
+    private UserRole role = UserRole.USER;
+
     public Long getCodigo() { return codigo; }
     public void setCodigo(Long codigo) { this.codigo = codigo; }
     public String getNome() { return nome; }
@@ -45,4 +51,6 @@ public class Usuario {
     public void setEmail(String email) { this.email = email; }
     public String getSenha() { return senha; }
     public void setSenha(String senha) { this.senha = senha; }
+    public UserRole getRole() { return role; }
+    public void setRole(UserRole role) { this.role = role; }
 }
