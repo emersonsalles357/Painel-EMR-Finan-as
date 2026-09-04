@@ -1,0 +1,10 @@
+.git
+.gitignore
+.npm-cache
+.m2
+node_modules
+dist
+**/target
+.env
+.env.*
+!.env.example
