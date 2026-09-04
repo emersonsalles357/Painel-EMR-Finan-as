@@ -1,0 +1,10 @@
+# Alunos:
+Emerson Salles Rm566856
+Max Santos Rm567714
+
+# Subindo BackEnd
+
+ 1. Certifique-se que o Java versão 25 está instalado
+ 2. Abra o IntelliJ IDEA
+ 3. Selecione o arquivo src/main/java/br/com/emr/emrfinancas/EmrFinancasApplication.java
+ 4. No IntelliJ, clique no botão "Run application" no topo da tela

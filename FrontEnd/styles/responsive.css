@@ -1,0 +1,19 @@
+@media (max-width: 1180px) {
+  .dashboard-hero { grid-template-columns: 1fr; }
+}
+@media (max-width: 991px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.show { transform: translateX(0); }
+  .sidebar-backdrop.show { display: block; }
+  .main-wrapper { margin-left: 0; }
+  .main-content { padding: 18px; }
+  .topbar { padding: 14px 18px; }
+}
+@media (max-width: 575px) {
+  .auth-card { padding: 24px; border-radius: 24px; }
+  .section-title { font-size: 1.15rem; letter-spacing: .08em; }
+  .metric-card { min-height: 104px; padding: 16px; }
+  .table-toolbar > * { width: 100%; }
+  .quick-grid { grid-template-columns: 1fr; }
+  .access-panel, .assistant-panel { padding: 20px; }
+}
