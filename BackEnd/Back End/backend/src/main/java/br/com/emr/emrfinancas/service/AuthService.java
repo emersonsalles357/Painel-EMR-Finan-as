@@ -2,22 +2,38 @@ package br.com.emr.emrfinancas.service;
 
 import br.com.emr.emrfinancas.dto.LoginRequest;
 import br.com.emr.emrfinancas.dto.LoginResponse;
-import br.com.emr.emrfinancas.exception.RegraNegocioException;
+import br.com.emr.emrfinancas.dto.UsuarioResponse;
 import br.com.emr.emrfinancas.model.Usuario;
 import br.com.emr.emrfinancas.repository.UsuarioRepository;
+import br.com.emr.emrfinancas.security.JwtService;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
     private final UsuarioRepository usuarioRepository;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
-    public AuthService(UsuarioRepository usuarioRepository) {
+    public AuthService(UsuarioRepository usuarioRepository, AuthenticationManager authenticationManager, JwtService jwtService) {
         this.usuarioRepository = usuarioRepository;
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
     }
 
     public LoginResponse login(LoginRequest loginRequest) {
-        Usuario usuario = usuarioRepository.findByEmailAndSenha(loginRequest.getEmail(), loginRequest.getSenha())
-                .orElseThrow(() -> new RegraNegocioException("E-mail ou senha invalidos"));
-        return new LoginResponse(usuario.getCodigo(), usuario.getNome(), usuario.getEmail(), "token-academico-emr");
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getSenha()));
+        UserDetails principal = (UserDetails) authentication.getPrincipal();
+        Usuario usuario = usuarioRepository.findByEmail(principal.getUsername()).orElseThrow();
+        return new LoginResponse(jwtService.generateToken(principal), jwtService.getExpirationSeconds(),
+                UsuarioResponse.from(usuario));
+    }
+
+    public UsuarioResponse usuarioAutenticado(String email) {
+        return usuarioRepository.findByEmail(email).map(UsuarioResponse::from).orElseThrow();
     }
 }

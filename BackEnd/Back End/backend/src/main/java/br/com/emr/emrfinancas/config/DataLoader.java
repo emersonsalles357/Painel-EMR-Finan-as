@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @Profile("dev")
@@ -16,6 +17,7 @@ public class DataLoader {
     @Bean
     CommandLineRunner seedUsuario(
             UsuarioRepository usuarioRepository,
+            PasswordEncoder passwordEncoder,
             @Value("${DEV_SEED_USER_NAME}") String nome,
             @Value("${DEV_SEED_USER_EMAIL}") String email,
             @Value("${DEV_SEED_USER_PASSWORD}") String senha) {
@@ -24,7 +26,7 @@ public class DataLoader {
                 Usuario usuario = new Usuario();
                 usuario.setNome(nome);
                 usuario.setEmail(email);
-                usuario.setSenha(senha);
+                usuario.setSenha(passwordEncoder.encode(senha));
                 usuarioRepository.save(usuario);
             }
         };

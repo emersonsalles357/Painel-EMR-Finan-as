@@ -5,15 +5,18 @@ import br.com.emr.emrfinancas.exception.RegraNegocioException;
 import br.com.emr.emrfinancas.model.Usuario;
 import br.com.emr.emrfinancas.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
 @Service
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Usuario> listar() { return usuarioRepository.findAll(); }
@@ -27,6 +30,7 @@ public class UsuarioService {
         usuarioRepository.findByEmail(usuario.getEmail()).ifPresent(u -> {
             throw new RegraNegocioException("Ja existe usuario cadastrado com este e-mail");
         });
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         return usuarioRepository.save(usuario);
     }
 
@@ -34,7 +38,7 @@ public class UsuarioService {
         Usuario usuario = buscarPorId(codigo);
         usuario.setNome(usuarioAtualizado.getNome());
         usuario.setEmail(usuarioAtualizado.getEmail());
-        usuario.setSenha(usuarioAtualizado.getSenha());
+        usuario.setSenha(passwordEncoder.encode(usuarioAtualizado.getSenha()));
         return usuarioRepository.save(usuario);
     }
 
