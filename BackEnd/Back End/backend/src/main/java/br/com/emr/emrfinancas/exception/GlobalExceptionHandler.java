@@ -45,6 +45,12 @@ public class GlobalExceptionHandler {
                 .body(erro("Credenciais invalidas.", HttpStatus.UNAUTHORIZED));
     }
 
+    @ExceptionHandler(RateLimitExceededException.class)
+    public ResponseEntity<Map<String, Object>> tratarRateLimitExcedido(RateLimitExceededException exception) {
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                .body(erro(exception.getMessage(), HttpStatus.TOO_MANY_REQUESTS));
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> tratarValidacao(MethodArgumentNotValidException exception) {
         Map<String, Object> body = erro("Erro de validacao", HttpStatus.BAD_REQUEST);
