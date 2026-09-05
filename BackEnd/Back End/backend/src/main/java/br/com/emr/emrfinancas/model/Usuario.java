@@ -43,6 +43,12 @@ public class Usuario {
     @Column(name = "DS_ROLE", nullable = false, length = 20)
     private UserRole role = UserRole.USER;
 
+    @Column(name = "NR_FALHAS_LOGIN", nullable = false)
+    private int failedLoginAttempts = 0;
+
+    @Column(name = "DT_BLOQUEIO_ATE")
+    private java.time.Instant lockedUntil;
+
     public Long getCodigo() { return codigo; }
     public void setCodigo(Long codigo) { this.codigo = codigo; }
     public String getNome() { return nome; }
@@ -53,4 +59,25 @@ public class Usuario {
     public void setSenha(String senha) { this.senha = senha; }
     public UserRole getRole() { return role; }
     public void setRole(UserRole role) { this.role = role; }
+
+    public int getFailedLoginAttempts() { return failedLoginAttempts; }
+    public void setFailedLoginAttempts(int failedLoginAttempts) { this.failedLoginAttempts = failedLoginAttempts; }
+    public java.time.Instant getLockedUntil() { return lockedUntil; }
+    public void setLockedUntil(java.time.Instant lockedUntil) { this.lockedUntil = lockedUntil; }
+
+    public boolean isAccountLocked(java.time.Instant now) {
+        return lockedUntil != null && lockedUntil.isAfter(now);
+    }
+
+    public void registerFailedLoginAttempt(java.time.Instant now, int maxAttempts, int lockoutMinutes) {
+        this.failedLoginAttempts++;
+        if (this.failedLoginAttempts >= maxAttempts) {
+            this.lockedUntil = now.plus(lockoutMinutes, java.time.temporal.ChronoUnit.MINUTES);
+        }
+    }
+
+    public void resetLockout() {
+        this.failedLoginAttempts = 0;
+        this.lockedUntil = null;
+    }
 }

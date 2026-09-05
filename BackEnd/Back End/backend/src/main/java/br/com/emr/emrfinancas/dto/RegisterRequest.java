@@ -20,6 +20,14 @@ public class RegisterRequest {
     @Size(max = 72, message = "A senha deve ter no maximo 72 caracteres")
     private String senha;
 
+    public RegisterRequest() {}
+
+    public RegisterRequest(String nome, String email, String senha) {
+        setNome(nome);
+        setEmail(email);
+        this.senha = senha;
+    }
+
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome == null ? null : nome.trim(); }
     public String getEmail() { return email; }
