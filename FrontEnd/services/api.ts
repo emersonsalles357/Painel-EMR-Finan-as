@@ -11,6 +11,12 @@ export const authService = {
   async login(email: string, password: string) {
     return realApi.auth.login(email, password);
   },
+  async forgotPassword(email: string) {
+    return realApi.auth.forgotPassword(email);
+  },
+  async resetPassword(token: string, novaSenha: string) {
+    return realApi.auth.resetPassword(token, novaSenha);
+  },
   logout() {
     localStorage.removeItem('emr_financas_token');
     localStorage.removeItem('emr_financas_user');

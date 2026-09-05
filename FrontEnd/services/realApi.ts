@@ -92,6 +92,14 @@ export const realApi = {
       const { data } = await api.get<{ id: number; nome: string; email: string; role: string }>('/auth/me');
       return toUser(data);
     },
+    async forgotPassword(email: string) {
+      const { data } = await api.post<{ message: string }>('/auth/forgot-password', { email });
+      return data;
+    },
+    async resetPassword(token: string, novaSenha: string) {
+      const { data } = await api.post<{ message: string }>('/auth/reset-password', { token, novaSenha });
+      return data;
+    },
   },
 
   gastos: {

@@ -57,7 +57,12 @@ export function LoginPage() {
           </div>
           {errors.email && <span className="invalid-feedback-live">{errors.email}</span>}
 
-          <label className="form-label fw-semibold mt-2">Senha</label>
+          <div className="d-flex justify-content-between align-items-center mt-2">
+            <label className="form-label fw-semibold mb-0">Senha</label>
+            <Link to="/esqueci-senha" className="small text-decoration-none text-muted-soft">
+              Esqueci minha senha
+            </Link>
+          </div>
           <div className="input-icon mb-1">
             <i className="bi bi-lock"></i>
             <input name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} className={`form-control ${errors.password ? 'is-invalid' : ''}`} data-required />
