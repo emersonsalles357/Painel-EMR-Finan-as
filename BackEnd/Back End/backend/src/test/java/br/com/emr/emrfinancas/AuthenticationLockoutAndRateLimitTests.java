@@ -163,7 +163,7 @@ class AuthenticationLockoutAndRateLimitTests {
         // Limite por IP + email é 5 tentativas
         for (int i = 1; i <= 5; i++) {
             mockMvc.perform(post("/api/auth/login")
-                            .header("X-Forwarded-For", "198.51.100.1")
+                            .with(request -> { request.setRemoteAddr("198.51.100.1"); return request; })
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(new LoginRequest(EMAIL, "senha-" + i))))
                     .andExpect(status().isUnauthorized());
@@ -171,7 +171,7 @@ class AuthenticationLockoutAndRateLimitTests {
 
         // 6ª tentativa dispara rate limit (429)
         mockMvc.perform(post("/api/auth/login")
-                        .header("X-Forwarded-For", "198.51.100.1")
+                        .with(request -> { request.setRemoteAddr("198.51.100.1"); return request; })
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new LoginRequest(EMAIL, "senha-6"))))
                 .andExpect(status().isTooManyRequests())
@@ -180,11 +180,24 @@ class AuthenticationLockoutAndRateLimitTests {
     }
 
     @Test
+    void forwardedForForjadoNaoContornaRateLimit() throws Exception {
+        for (int i = 0; i < 6; i++) {
+            mockMvc.perform(post("/api/auth/forgot-password")
+                            .with(request -> { request.setRemoteAddr("198.51.100.80"); return request; })
+                            .header("X-Forwarded-For", "203.0.113." + i)
+                            .header("Forwarded", "for=203.0.113." + i)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(new ForgotPasswordRequest("fake@example.com"))))
+                    .andExpect(i < 5 ? status().isOk() : status().isTooManyRequests());
+        }
+    }
+
+    @Test
     void forgotPasswordExcedendoRateLimitRetorna429() throws Exception {
         // Limite é 5 tentativas por IP
         for (int i = 1; i <= 5; i++) {
             mockMvc.perform(post("/api/auth/forgot-password")
-                            .header("X-Forwarded-For", "198.51.100.2")
+                            .with(request -> { request.setRemoteAddr("198.51.100.2"); return request; })
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(new ForgotPasswordRequest("teste" + i + "@teste.com"))))
                     .andExpect(status().isOk());
@@ -192,7 +205,7 @@ class AuthenticationLockoutAndRateLimitTests {
 
         // 6ª tentativa dispara rate limit (429)
         mockMvc.perform(post("/api/auth/forgot-password")
-                        .header("X-Forwarded-For", "198.51.100.2")
+                        .with(request -> { request.setRemoteAddr("198.51.100.2"); return request; })
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new ForgotPasswordRequest("teste6@teste.com"))))
                 .andExpect(status().isTooManyRequests())
@@ -204,7 +217,7 @@ class AuthenticationLockoutAndRateLimitTests {
         // Limite é 5 tentativas por IP
         for (int i = 1; i <= 5; i++) {
             mockMvc.perform(post("/api/auth/register")
-                            .header("X-Forwarded-For", "198.51.100.3")
+                            .with(request -> { request.setRemoteAddr("198.51.100.3"); return request; })
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(new RegisterRequest("User " + i, "reg" + i + "@teste.com", "SenhaValida123!"))))
                     .andExpect(status().isCreated());
@@ -212,7 +225,7 @@ class AuthenticationLockoutAndRateLimitTests {
 
         // 6ª tentativa dispara rate limit (429)
         mockMvc.perform(post("/api/auth/register")
-                        .header("X-Forwarded-For", "198.51.100.3")
+                        .with(request -> { request.setRemoteAddr("198.51.100.3"); return request; })
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new RegisterRequest("User 6", "reg6@teste.com", "SenhaValida123!"))))
                 .andExpect(status().isTooManyRequests())
@@ -224,7 +237,7 @@ class AuthenticationLockoutAndRateLimitTests {
         // Limite é 10 tentativas por IP
         for (int i = 1; i <= 10; i++) {
             mockMvc.perform(post("/api/auth/reset-password")
-                            .header("X-Forwarded-For", "198.51.100.4")
+                            .with(request -> { request.setRemoteAddr("198.51.100.4"); return request; })
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(new ResetPasswordRequest("token-falso-" + i, "NovaSenhaSegura123!"))))
                     .andExpect(status().isBadRequest());
@@ -232,7 +245,7 @@ class AuthenticationLockoutAndRateLimitTests {
 
         // 11ª tentativa dispara rate limit (429)
         mockMvc.perform(post("/api/auth/reset-password")
-                        .header("X-Forwarded-For", "198.51.100.4")
+                        .with(request -> { request.setRemoteAddr("198.51.100.4"); return request; })
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new ResetPasswordRequest("token-falso-11", "NovaSenhaSegura123!"))))
                 .andExpect(status().isTooManyRequests())
