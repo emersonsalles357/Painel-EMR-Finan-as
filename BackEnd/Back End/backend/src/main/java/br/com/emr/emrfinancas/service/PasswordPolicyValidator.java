@@ -9,6 +9,9 @@ public class PasswordPolicyValidator {
         if (password == null || password.length() < 10) {
             throw new RegraNegocioException("A senha deve possuir pelo menos 10 caracteres");
         }
+        if (password.length() > 72) {
+            throw new RegraNegocioException("A senha deve possuir no maximo 72 caracteres");
+        }
         if (password.chars().noneMatch(Character::isUpperCase)) {
             throw new RegraNegocioException("A senha deve conter uma letra maiuscula");
         }
