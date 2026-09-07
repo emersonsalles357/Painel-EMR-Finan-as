@@ -1,3 +1,5 @@
+import { FinancialStatus } from '../components/FinancialStatus';
+import { useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import { Navbar } from '../components/Navbar';
 import { CRUDTable } from '../components/CRUDTable';
@@ -23,7 +25,8 @@ export function RecebimentosPage() {
   const { recebimentos, setRecebimentos } = useFinancas();
   const { showToast } = useToast();
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const [params, setParams] = useSearchParams();
+  const [modalOpen, setModalOpen] = useState(params.get('novo') === '1');
   const [editingItem, setEditingItem] = useState<Recebimento | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
@@ -40,7 +43,7 @@ export function RecebimentosPage() {
     }
     const refreshed = await recebimentosService.list();
     setRecebimentos(refreshed);
-    setModalOpen(false);
+    setModalOpen(false); setParams({}, {replace:true});
     setEditingItem(null);
   };
 
@@ -64,6 +67,7 @@ export function RecebimentosPage() {
             <p className="text-muted-soft mb-0">Controle entradas financeiras e cobranças de clientes.</p>
           </div>
         </div>
+        <FinancialStatus />
         <CRUDTable
           columns={COLUMNS}
           rows={recebimentos}
@@ -78,7 +82,7 @@ export function RecebimentosPage() {
       {modalOpen && (
         <Modal
           title={`${editingItem ? 'Editar' : 'Novo'} Recebimento`}
-          onClose={() => { setModalOpen(false); setEditingItem(null); }}
+          onClose={() => { setModalOpen(false); setParams({}, {replace:true}); setEditingItem(null); }}
           onSave={handleSave}
           initialData={initial}
           fields={[

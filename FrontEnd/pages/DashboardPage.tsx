@@ -1,83 +1,263 @@
-import { Navbar } from '../components/Navbar';
-import { MetricCard } from '../components/MetricCard';
-import { DashboardChart } from '../components/DashboardChart';
-import { useFinancas } from '../contexts/FinancasContext';
-import { formatCurrency, formatDate } from '../utils';
-
+import { Link } from "react-router-dom";
+import { Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Navbar } from "../components/Navbar";
+import { DashboardChart } from "../components/DashboardChart";
+import { useFinancas } from "../contexts/FinancasContext";
+import { useAuth } from "../contexts/AuthContext";
+import { formatCurrency, formatDate } from "../utils";
+ChartJS.register(ArcElement, Tooltip, Legend);
 export function DashboardPage() {
-  const { gastos, recebimentos, investimentos } = useFinancas();
-
-  const totalGastos = gastos.reduce((sum, item) => sum + Number(item.valor), 0);
-  const totalReceitas = recebimentos.reduce((sum, item) => sum + Number(item.valor), 0);
-  const totalInvestimentos = investimentos.reduce((sum, item) => sum + Number(item.valor), 0);
-  const saldo = totalReceitas - totalGastos + totalInvestimentos;
-  const percentual = totalReceitas ? (((saldo - totalGastos) / totalReceitas) * 100).toFixed(1) : '0';
-
-  const atividades = [
-    ...gastos.map((item) => ({ title: item.descricao, type: 'Despesa' as const, value: -item.valor, date: item.data })),
-    ...recebimentos.map((item) => ({ title: item.cliente, type: 'Receita' as const, value: item.valor, date: item.data })),
-  ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 5);
-
+  const { gastos, recebimentos, investimentos, loading, error, loadAll } =
+    useFinancas();
+  const { user } = useAuth();
+  const expenses = gastos.reduce((s, x) => s + Number(x.valor), 0),
+    income = recebimentos.reduce((s, x) => s + Number(x.valor), 0),
+    invested = investimentos.reduce((s, x) => s + Number(x.valor), 0);
+  const months = [
+    ...new Set([...gastos, ...recebimentos].map((x) => x.data.slice(0, 7))),
+  ].sort();
+  const totals = (items: { data: string; valor: number }[]) =>
+    months.map((m) =>
+      items
+        .filter((x) => x.data.startsWith(m))
+        .reduce((s, x) => s + Number(x.valor), 0),
+    );
+  const categories = Object.entries(
+    gastos.reduce<Record<string, number>>((acc, x) => {
+      acc[x.categoria || "Outros"] =
+        (acc[x.categoria || "Outros"] || 0) + Number(x.valor);
+      return acc;
+    }, {}),
+  );
+  const activities = [
+    ...gastos.map((x) => ({
+      id: "g" + x.id,
+      title: x.descricao,
+      type: "Despesa",
+      value: -x.valor,
+      date: x.data,
+    })),
+    ...recebimentos.map((x) => ({
+      id: "r" + x.id,
+      title: String(x.descricao || x.cliente),
+      type: "Receita",
+      value: x.valor,
+      date: x.data,
+    })),
+    ...investimentos.map((x) => ({
+      id: "i" + x.id,
+      title: x.ativo,
+      type: "Investimento",
+      value: x.valor,
+      date: x.data,
+    })),
+  ]
+    .sort((a, b) => b.date.localeCompare(a.date))
+    .slice(0, 6);
+  const cards = [
+    {
+      label: "Saldo consolidado",
+      value: income - expenses + invested,
+      icon: "wallet2",
+      tone: "cyan",
+      hint: "Receitas − despesas + investimentos",
+    },
+    {
+      label: "Receitas",
+      value: income,
+      icon: "arrow-up",
+      tone: "positive",
+      hint: "Total cadastrado",
+    },
+    {
+      label: "Despesas",
+      value: expenses,
+      icon: "arrow-down",
+      tone: "negative",
+      hint: "Total cadastrado",
+    },
+    {
+      label: "Investimentos",
+      value: invested,
+      icon: "bar-chart",
+      tone: "blue",
+      hint: "Capital aplicado",
+    },
+  ];
   return (
-    <section className="page-enter">
-      <Navbar title="Dashboard" />
-      <div className="main-content">
-        <div className="dashboard-hero">
-          <div className="access-panel">
-            <div className="emr-mark">EMR</div>
-            <div className="access-title mb-3">Acesse sua conta</div>
-            <a href="/perfil" className="btn btn-primary-gradient w-100 py-2">Entrar <i className="bi bi-person-circle ms-2"></i></a>
-            <div className="d-flex justify-content-between mt-3 small position-relative" style={{ zIndex: 2 }}>
-              <a href="/perfil" className="text-muted-soft">cadastre-se</a>
-              <a href="/perfil" className="text-muted-soft">recuperar senha</a>
-            </div>
-          </div>
-          <div className="assistant-panel">
-            <div className="assistant-title mb-4">Seja bem-vindo</div>
-            <div className="assistant-question">O QUE VOCÊ DESEJA ACESSAR?</div>
-            <div className="d-flex justify-content-between align-items-center gap-12 mt-18px">
-              <strong>Olá! Como posso te ajudar?</strong>
-              <span className="avatar">S</span>
-            </div>
-            <div className="small text-muted-soft mt-3">Sugestões rápidas</div>
-            <div className="quick-grid">
-              <a href="/recebimentos"><i className="bi bi-cash-coin me-1"></i>Recebimentos</a>
-              <a href="/investimentos"><i className="bi bi-graph-up-arrow me-1"></i>Investimentos</a>
-              <a href="/gastos"><i className="bi bi-credit-card me-1"></i>Gastos</a>
-              <a href="/investimentos">Como inserir novo investimento?</a>
-            </div>
-          </div>
+    <section>
+      <Navbar />
+      <main className="main-content">
+        <div className="page-heading">
+          <span className="eyebrow">SEU PANORAMA FINANCEIRO</span>
+          <h2>Olá{user?.name ? ", " + user.name : ""}</h2>
+          <p>Visão geral das suas finanças</p>
         </div>
-
-        <h2 className="section-title h5 mb-3">Menu principal</h2>
-        <div className="row g-3 mb-4">
-          <div className="col-md-4"><MetricCard label="Recebimentos" value={totalReceitas} icon="bi-arrow-down-circle" hint="Entrada consolidada" /></div>
-          <div className="col-md-4"><MetricCard label="Gastos" value={totalGastos} icon="bi-arrow-up-circle" hint="Saída operacional" /></div>
-          <div className="col-md-4"><MetricCard label="Investimentos" value={totalInvestimentos} icon="bi-pie-chart" hint={`${percentual}% eficiência`} /></div>
-        </div>
-        <div className="row g-3 mb-4">
-          <div className="col-sm-6 col-xl-3"><MetricCard label="Saldo total" value={saldo} icon="bi-wallet2" hint="Visão consolidada" /></div>
-          <div className="col-sm-6 col-xl-3"><MetricCard label="Receitas" value={totalReceitas} icon="bi-arrow-down-circle" hint="+12,4% no mês" /></div>
-          <div className="col-sm-6 col-xl-3"><MetricCard label="Despesas" value={totalGastos} icon="bi-arrow-up-circle" hint="Controle operacional" /></div>
-          <div className="col-sm-6 col-xl-3"><MetricCard label="Investimentos" value={totalInvestimentos} icon="bi-pie-chart" hint="Carteira ativa" /></div>
-        </div>
-        <div className="row g-3">
-          <div className="col-xl-8">
-            <DashboardChart labels={['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun']} receitas={[4200, 6100, 5400, 7200, 8600, 9300]} despesas={[2300, 2800, 2600, 3100, 3700, 4200]} />
+        {loading ? (
+          <div className="chart-card" role="status">
+            Carregando suas finanças…
           </div>
-          <div className="col-xl-4">
-            <div className="activity-card h-100">
-              <h2 className="h5 fw-bold mb-3">Atividades recentes</h2>
-              {atividades.map((item, i) => (
-                <div key={i} className="activity-item">
-                  <div><strong>{item.title}</strong><br /><span className="small text-muted-soft">{item.type} • {formatDate(item.date)}</span></div>
-                  <span className={`fw-bold ${item.value < 0 ? 'text-danger' : 'text-success'}`}>{formatCurrency(item.value)}</span>
-                </div>
+        ) : error ? (
+          <div className="alert alert-danger" role="alert">
+            {error}{" "}
+            <button className="btn btn-light" onClick={() => void loadAll()}>
+              Tentar novamente
+            </button>
+          </div>
+        ) : (
+          <>
+            <div className="metrics-grid">
+              {cards.map((c) => (
+                <article key={c.label} className={"summary-card " + c.tone}>
+                  <div className="summary-top">
+                    <span className="summary-icon">
+                      <i className={"bi bi-" + c.icon} />
+                    </span>
+                    <div>
+                      <h3>{c.label}</h3>
+                      <strong>{formatCurrency(c.value)}</strong>
+                    </div>
+                  </div>
+                  <p>{c.hint}</p>
+                </article>
               ))}
             </div>
-          </div>
-        </div>
-      </div>
+            <div className="dashboard-grid">
+              <div className="chart-card flow-panel">
+                <h3 className="h5">Fluxo financeiro</h3>
+                <p className="text-muted-soft small">
+                  Totais por mês dos lançamentos cadastrados
+                </p>
+                {months.length ? (
+                  <DashboardChart
+                    labels={months.map((m) => m.slice(5) + "/" + m.slice(0, 4))}
+                    receitas={totals(recebimentos)}
+                    despesas={totals(gastos)}
+                  />
+                ) : (
+                  <div className="empty-state">
+                    <i className="bi bi-graph-up" />
+                    <p>Seu histórico começa com o primeiro lançamento.</p>
+                    <Link to="/recebimentos">Cadastrar receita →</Link>
+                  </div>
+                )}
+              </div>
+              <aside className="chart-card">
+                <h3 className="h5 mb-3">Ações rápidas</h3>
+                <div className="quick-actions">
+                  <Link className="positive" to="/recebimentos?novo=1">
+                    <i className="bi bi-arrow-up" />
+                    Nova receita
+                    <i className="bi bi-plus-lg" />
+                  </Link>
+                  <Link className="negative" to="/gastos?novo=1">
+                    <i className="bi bi-arrow-down" />
+                    Nova despesa
+                    <i className="bi bi-plus-lg" />
+                  </Link>
+                  <Link className="blue" to="/investimentos?novo=1">
+                    <i className="bi bi-bar-chart" />
+                    Novo investimento
+                    <i className="bi bi-plus-lg" />
+                  </Link>
+                </div>
+                <p className="small text-muted-soft mt-4 mb-0">
+                  <i className="bi bi-info-circle me-2" />O saldo consolidado
+                  inclui os investimentos e não representa apenas dinheiro
+                  disponível.
+                </p>
+              </aside>
+              <section className="chart-card movements">
+                <h3 className="h5 mb-3">Últimas movimentações</h3>
+                {activities.length ? (
+                  <div className="table-responsive">
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th>Data</th>
+                          <th>Descrição</th>
+                          <th>Tipo</th>
+                          <th className="text-end">Valor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {activities.map((a) => (
+                          <tr key={a.id}>
+                            <td>{formatDate(a.date)}</td>
+                            <td>{a.title}</td>
+                            <td>{a.type}</td>
+                            <td
+                              className={
+                                "text-end " +
+                                (a.type === "Despesa"
+                                  ? "text-danger"
+                                  : "text-success")
+                              }
+                            >
+                              {formatCurrency(a.value)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div className="empty-state">
+                    <i className="bi bi-receipt" />
+                    <p>Você ainda não possui movimentações cadastradas.</p>
+                    <Link to="/gastos">Cadastrar despesa →</Link>
+                  </div>
+                )}
+              </section>
+              <section className="chart-card distribution">
+                <h3 className="h5 mb-3">Distribuição dos gastos</h3>
+                {categories.length ? (
+                  <div className="donut-wrap">
+                    <Doughnut
+                      aria-label="Gastos por categoria"
+                      data={{
+                        labels: categories.map((x) => x[0]),
+                        datasets: [
+                          {
+                            data: categories.map((x) => x[1]),
+                            backgroundColor: [
+                              "#00cfe8",
+                              "#278eff",
+                              "#5e6ce8",
+                              "#c256da",
+                              "#00b8a7",
+                              "#eab564",
+                            ],
+                            borderColor: "#002031",
+                            borderWidth: 2,
+                          },
+                        ],
+                      }}
+                      options={{
+                        maintainAspectRatio: false,
+                        plugins: {
+                          legend: {
+                            position: "bottom",
+                            labels: { color: "#b6d2e2", usePointStyle: true },
+                          },
+                        },
+                        cutout: "72%",
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <div className="empty-state">
+                    <i className="bi bi-pie-chart" />
+                    <p>Você ainda não possui despesas cadastradas.</p>
+                    <Link to="/gastos">Adicionar despesa →</Link>
+                  </div>
+                )}
+              </section>
+            </div>
+          </>
+        )}
+      </main>
     </section>
   );
 }

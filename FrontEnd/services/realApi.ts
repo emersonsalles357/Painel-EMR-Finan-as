@@ -88,6 +88,13 @@ export const realApi = {
       );
       return { token: data.accessToken, user: toUser(data.usuario) };
     },
+    async updateProfile(nome: string) {
+      const { data } = await api.patch<{ id: number; nome: string; email: string; role: string }>('/users/me', { nome });
+      return toUser(data);
+    },
+    async changePassword(senhaAtual: string, novaSenha: string) {
+      await api.post('/users/me/password', { senhaAtual, novaSenha });
+    },
     async me() {
       const { data } = await api.get<{ id: number; nome: string; email: string; role: string }>('/auth/me');
       return toUser(data);

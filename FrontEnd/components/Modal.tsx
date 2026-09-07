@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useState, useEffect, useRef, type FormEvent } from 'react';
 import { toNumber } from '../utils';
 
 interface Field {
@@ -26,6 +26,24 @@ export function Modal({ title, onClose, onSave, initialData, fields, isDelete }:
   );
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
+  const [failure, setFailure] = useState('');
+  const dialog = useRef<HTMLDivElement>(null);
+  const closeRef = useRef(onClose); closeRef.current = onClose;
+  useEffect(() => {
+    const previous = document.activeElement as HTMLElement | null;
+    const overflow = document.body.style.overflow; document.body.style.overflow = 'hidden';
+    dialog.current?.querySelector<HTMLElement>('input,button,select')?.focus();
+    const keyboard = (event: KeyboardEvent) => {
+      if(event.key === 'Escape') closeRef.current();
+      if(event.key !== 'Tab') return;
+      const items = Array.from(dialog.current?.querySelectorAll<HTMLElement>('button:not(:disabled),input,select,textarea,[tabindex="0"]') || []);
+      const first=items[0], last=items[items.length-1];
+      if(event.shiftKey && document.activeElement===first){event.preventDefault();last?.focus();}
+      else if(!event.shiftKey && document.activeElement===last){event.preventDefault();first?.focus();}
+    };
+    document.addEventListener('keydown',keyboard);
+    return () => { document.body.style.overflow=overflow;document.removeEventListener('keydown',keyboard);previous?.focus(); };
+  }, []);
 
   const handleChange = (name: string, value: string) => {
     setData((prev) => ({ ...prev, [name]: value }));
@@ -44,6 +62,8 @@ export function Modal({ title, onClose, onSave, initialData, fields, isDelete }:
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!isDelete && !validate()) return;
+    if (saving) return;
+    setFailure('');
     setSaving(true);
     try {
       const payload: Record<string, unknown> = {};
@@ -55,19 +75,22 @@ export function Modal({ title, onClose, onSave, initialData, fields, isDelete }:
         }
       });
       await onSave(payload);
+    } catch {
+      setFailure('Não foi possível salvar a alteração. Confira os dados e tente novamente.');
     } finally {
       setSaving(false);
     }
   };
 
   return (
-    <div className="modal d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} onClick={(e) => e.target === e.currentTarget && onClose()}>
+    <div ref={dialog} role="dialog" aria-modal="true" aria-labelledby="modal-title" className="modal d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="modal-dialog modal-dialog-centered modal-lg">
         <div className="modal-content rounded-4 shadow">
           <div className="modal-header pb-0">
-            <h5 className="modal-title fw-bold">{title}</h5>
-            <button type="button" className="btn-close" onClick={onClose}></button>
+            <h5 id="modal-title" className="modal-title fw-bold">{title}</h5>
+            <button type="button" className="btn-close" aria-label="Fechar" onClick={onClose}></button>
           </div>
+          {failure && <div className="alert alert-danger m-3" role="alert">{failure}</div>}
           {isDelete ? (
             <form onSubmit={handleSubmit}>
               <div className="modal-body">
@@ -84,9 +107,9 @@ export function Modal({ title, onClose, onSave, initialData, fields, isDelete }:
                 <div className="row g-3">
                   {fields.map((field) => (
                     <div key={field.name} className={`col-md-${field.col || 6}`}>
-                      <label className="form-label fw-semibold">{field.label}</label>
+                      <label htmlFor={'field-'+field.name} className="form-label fw-semibold">{field.label}</label>
                       {field.type === 'select' ? (
-                        <select
+                        <select id={'field-'+field.name}
                           className={`form-select ${errors[field.name] ? 'is-invalid' : ''}`}
                           value={String(data[field.name] || '')}
                           onChange={(e) => handleChange(field.name, e.target.value)}
@@ -95,7 +118,7 @@ export function Modal({ title, onClose, onSave, initialData, fields, isDelete }:
                           {field.options?.map((opt) => <option key={opt}>{opt}</option>)}
                         </select>
                       ) : (
-                        <input
+                        <input id={'field-'+field.name}
                           type={field.type || 'text'}
                           className={`form-control ${errors[field.name] ? 'is-invalid' : ''}`}
                           value={String(data[field.name] || '')}

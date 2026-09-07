@@ -38,9 +38,9 @@ export function DashboardChart({ labels, receitas, despesas }: DashboardChartPro
         data: despesas,
         tension: 0.42,
         fill: true,
-        borderColor: '#d9a441',
-        backgroundColor: 'rgba(217, 164, 65, .12)',
-        pointBackgroundColor: '#d9a441',
+        borderColor: '#ff606c',
+        backgroundColor: 'rgba(255, 96, 108, .12)',
+        pointBackgroundColor: '#ff606c',
         pointBorderColor: '#06121b',
       },
     ],
@@ -48,6 +48,7 @@ export function DashboardChart({ labels, receitas, despesas }: DashboardChartPro
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { position: 'bottom' as const, labels: { color: '#91a7b0', usePointStyle: true, padding: 18 } },
     },
@@ -58,12 +59,8 @@ export function DashboardChart({ labels, receitas, despesas }: DashboardChartPro
   };
 
   return (
-    <div className="chart-card h-100">
-      <div className="d-flex justify-content-between align-items-start mb-3">
-        <div><h2 className="h5 fw-bold mb-1">Performance financeira</h2><p className="text-muted-soft small mb-0">Receitas x despesas nos últimos meses</p></div>
-        <span className="badge rounded-pill badge-soft-info">Tempo real</span>
-      </div>
-      <Line data={data} options={options} />
+    <div className="line-wrap">
+      <Line aria-label="Receitas e despesas mensais em reais" data={data} options={options} />
     </div>
   );
 }

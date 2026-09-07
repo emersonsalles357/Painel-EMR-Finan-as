@@ -98,3 +98,5 @@ export default function App() {
     </BrowserRouter>
   );
 }
+
+import './styles/emr.css';

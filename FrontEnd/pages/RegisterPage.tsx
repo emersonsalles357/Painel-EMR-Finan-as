@@ -1,3 +1,5 @@
+import { passwordRequirements } from '../utils/password';
+import { Brand } from '../components/Brand';
 import { useMemo, useRef, useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -19,13 +21,7 @@ export function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<FieldErrors>({});
 
-  const requirements = useMemo(() => [
-    { label: '10 ou mais caracteres', valid: senha.length >= 10 },
-    { label: 'letra maiúscula', valid: /[A-ZÀ-ÖØ-Þ]/.test(senha) },
-    { label: 'letra minúscula', valid: /[a-zà-öø-ÿ]/.test(senha) },
-    { label: 'número', valid: /\d/.test(senha) },
-    { label: 'caractere especial', valid: /[^\p{L}\p{N}\s]/u.test(senha) },
-  ], [senha]);
+  const requirements = useMemo(() => passwordRequirements(senha), [senha]);
 
   const validate = () => {
     const next: FieldErrors = {};
@@ -69,7 +65,7 @@ export function RegisterPage() {
     <main className="auth-layout page-enter">
       <section className="auth-card auth-card-register">
         <div className="text-center mb-4">
-          <div className="emr-mark">EMR</div>
+          <Brand />
           <h1 className="section-title h4 mb-2">Crie sua conta</h1>
           <p className="text-muted-soft mb-0">Comece a organizar sua vida financeira.</p>
         </div>

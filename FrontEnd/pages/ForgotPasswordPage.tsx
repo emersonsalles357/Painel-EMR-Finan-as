@@ -1,3 +1,4 @@
+import { Brand } from '../components/Brand';
 import { useState, useRef, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { authService } from '../services/api';
@@ -45,7 +46,7 @@ export function ForgotPasswordPage() {
     <main className="auth-layout page-enter">
       <section className="auth-card">
         <div className="text-center mb-4">
-          <div className="emr-mark">EMR</div>
+          <Brand />
           <h1 className="section-title h4 mb-2">Recuperar senha</h1>
           <p className="text-muted-soft mb-0">Informe seu e-mail para receber o link de redefinição.</p>
         </div>

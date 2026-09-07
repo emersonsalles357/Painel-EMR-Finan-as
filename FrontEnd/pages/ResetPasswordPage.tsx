@@ -1,3 +1,5 @@
+import { passwordRequirements } from '../utils/password';
+import { Brand } from '../components/Brand';
 import { useMemo, useRef, useState, type FormEvent } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
@@ -20,13 +22,7 @@ export function ResetPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<FieldErrors>({});
 
-  const requirements = useMemo(() => [
-    { label: '10 ou mais caracteres', valid: novaSenha.length >= 10 },
-    { label: 'letra maiúscula', valid: /[A-ZÀ-ÖØ-Þ]/.test(novaSenha) },
-    { label: 'letra minúscula', valid: /[a-zà-öø-ÿ]/.test(novaSenha) },
-    { label: 'número', valid: /\d/.test(novaSenha) },
-    { label: 'caractere especial', valid: /[^\p{L}\p{N}\s]/u.test(novaSenha) },
-  ], [novaSenha]);
+  const requirements = useMemo(() => passwordRequirements(novaSenha), [novaSenha]);
 
   const validate = () => {
     const next: FieldErrors = {};
@@ -71,7 +67,7 @@ export function ResetPasswordPage() {
     return (
       <main className="auth-layout page-enter">
         <section className="auth-card text-center">
-          <div className="emr-mark">EMR</div>
+          <Brand />
           <h1 className="section-title h4 mb-2">Link inválido</h1>
           <div className="alert alert-warning text-start mb-4" role="alert">
             <i className="bi bi-exclamation-triangle-fill me-2"></i>
@@ -95,7 +91,7 @@ export function ResetPasswordPage() {
     <main className="auth-layout page-enter">
       <section className="auth-card auth-card-register">
         <div className="text-center mb-4">
-          <div className="emr-mark">EMR</div>
+          <Brand />
           <h1 className="section-title h4 mb-2">Redefinir sua senha</h1>
           <p className="text-muted-soft mb-0">Crie uma nova senha segura para sua conta.</p>
         </div>
