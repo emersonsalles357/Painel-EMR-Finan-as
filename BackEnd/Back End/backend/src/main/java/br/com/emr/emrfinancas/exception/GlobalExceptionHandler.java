@@ -64,7 +64,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> tratarErroGeral(Exception exception) {
-        LOGGER.error("Erro interno nao tratado", exception);
+        LOGGER.error("Erro interno nao tratado ({})", exception.getClass().getSimpleName());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(erro("Ocorreu um erro interno inesperado", HttpStatus.INTERNAL_SERVER_ERROR));
     }

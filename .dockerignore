@@ -8,3 +8,17 @@ dist
 .env
 .env.*
 !.env.example
+.phase10
+.m2-wrapper
+**/*.log
+**/*.dump
+**/*.backup
+**/*.sql.gz
+secrets
+backups
+**/*.pem
+**/*.key
+**/*.p12
+**/*.pfx
+**/*.jks
+**/*.crt

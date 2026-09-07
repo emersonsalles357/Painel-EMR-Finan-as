@@ -71,10 +71,7 @@ public class AuthController {
     }
 
     private String getClientIp(HttpServletRequest request) {
-        String xForwardedFor = request.getHeader("X-Forwarded-For");
-        if (xForwardedFor != null && !xForwardedFor.isBlank()) {
-            return xForwardedFor.split(",")[0].trim();
-        }
+        // Forwarded headers are untrusted. Only the socket peer identifies the client.
         String remoteAddr = request.getRemoteAddr();
         return remoteAddr != null && !remoteAddr.isBlank() ? remoteAddr : "127.0.0.1";
     }

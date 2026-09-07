@@ -40,7 +40,8 @@ public class SmtpEmailService implements EmailService {
             mailSender.send(message);
             LOGGER.info("E-mail de recuperacao de senha enviado com sucesso");
         } catch (Exception e) {
-            LOGGER.error("Erro ao enviar e-mail de recuperacao de senha via SMTP: {}", e.getMessage());
+            // Mail exceptions can contain the complete message, including its reset token.
+            LOGGER.error("Falha na entrega SMTP de recuperacao de senha ({})", e.getClass().getSimpleName());
         }
     }
 }
