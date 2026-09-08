@@ -101,8 +101,10 @@ class AuthenticationIntegrationTests {
     @Test
     void endpointProtegidoComTokenAdulteradoRetorna401() throws Exception {
         String token = tokenValido();
-        char replacement = token.charAt(token.length() - 1) == 'a' ? 'b' : 'a';
-        String adulterado = token.substring(0, token.length() - 1) + replacement;
+        int signatureStart = token.lastIndexOf('.') + 1;
+        char replacement = token.charAt(signatureStart) == 'a' ? 'b' : 'a';
+        String adulterado = token.substring(0, signatureStart)
+                + replacement + token.substring(signatureStart + 1);
 
         mockMvc.perform(get("/api/auth/me").header("Authorization", "Bearer " + adulterado))
                 .andExpect(status().isUnauthorized());
