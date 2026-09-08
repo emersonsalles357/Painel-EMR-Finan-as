@@ -9,6 +9,7 @@ import br.com.emr.emrfinancas.dto.RegisterResponse;
 import br.com.emr.emrfinancas.dto.ResetPasswordRequest;
 import br.com.emr.emrfinancas.dto.ResetPasswordResponse;
 import br.com.emr.emrfinancas.dto.UsuarioResponse;
+import br.com.emr.emrfinancas.security.ClientIpResolver;
 import br.com.emr.emrfinancas.security.RateLimiterService;
 import br.com.emr.emrfinancas.service.AuthService;
 import br.com.emr.emrfinancas.service.PasswordResetService;
@@ -28,51 +29,48 @@ public class AuthController {
     private final AuthService authService;
     private final PasswordResetService passwordResetService;
     private final RateLimiterService rateLimiterService;
+    private final ClientIpResolver clientIpResolver;
 
     public AuthController(AuthService authService,
                           PasswordResetService passwordResetService,
-                          RateLimiterService rateLimiterService) {
+                          RateLimiterService rateLimiterService,
+                          ClientIpResolver clientIpResolver) {
         this.authService = authService;
         this.passwordResetService = passwordResetService;
         this.rateLimiterService = rateLimiterService;
+        this.clientIpResolver = clientIpResolver;
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest,
                                                HttpServletRequest httpRequest) {
-        rateLimiterService.checkLoginRateLimit(getClientIp(httpRequest), loginRequest.getEmail());
+        rateLimiterService.checkLoginRateLimit(clientIpResolver.resolve(httpRequest), loginRequest.getEmail());
         return ResponseEntity.ok(authService.login(loginRequest));
     }
 
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest registerRequest,
                                                      HttpServletRequest httpRequest) {
-        rateLimiterService.checkRegisterRateLimit(getClientIp(httpRequest));
+        rateLimiterService.checkRegisterRateLimit(clientIpResolver.resolve(httpRequest));
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(registerRequest));
     }
 
     @PostMapping("/forgot-password")
     public ResponseEntity<ForgotPasswordResponse> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request,
                                                                  HttpServletRequest httpRequest) {
-        rateLimiterService.checkForgotPasswordRateLimit(getClientIp(httpRequest));
+        rateLimiterService.checkForgotPasswordRateLimit(clientIpResolver.resolve(httpRequest));
         return ResponseEntity.ok(passwordResetService.solicitarRecuperacao(request));
     }
 
     @PostMapping("/reset-password")
     public ResponseEntity<ResetPasswordResponse> resetPassword(@Valid @RequestBody ResetPasswordRequest request,
                                                                HttpServletRequest httpRequest) {
-        rateLimiterService.checkResetPasswordRateLimit(getClientIp(httpRequest));
+        rateLimiterService.checkResetPasswordRateLimit(clientIpResolver.resolve(httpRequest));
         return ResponseEntity.ok(passwordResetService.redefinirSenha(request));
     }
 
     @GetMapping("/me")
     public ResponseEntity<UsuarioResponse> me() {
         return ResponseEntity.ok(authService.usuarioAutenticado());
-    }
-
-    private String getClientIp(HttpServletRequest request) {
-        // Forwarded headers are untrusted. Only the socket peer identifies the client.
-        String remoteAddr = request.getRemoteAddr();
-        return remoteAddr != null && !remoteAddr.isBlank() ? remoteAddr : "127.0.0.1";
     }
 }
