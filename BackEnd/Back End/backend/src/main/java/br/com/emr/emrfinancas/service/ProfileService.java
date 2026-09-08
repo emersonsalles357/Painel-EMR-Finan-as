@@ -39,6 +39,7 @@ public class ProfileService {
         }
         policy.validate(request.novaSenha());
         user.setSenha(encoder.encode(request.novaSenha()));
+        user.invalidateTokens();
         repository.save(user);
     }
 }

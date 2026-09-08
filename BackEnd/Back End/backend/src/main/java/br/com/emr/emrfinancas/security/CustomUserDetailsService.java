@@ -3,7 +3,6 @@ package br.com.emr.emrfinancas.security;
 import br.com.emr.emrfinancas.model.Usuario;
 import br.com.emr.emrfinancas.repository.UsuarioRepository;
 import br.com.emr.emrfinancas.service.EmailNormalizer;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,9 +22,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepository.findByEmailIgnoreCase(emailNormalizer.normalize(email))
                 .orElseThrow(() -> new UsernameNotFoundException("Credenciais invalidas."));
-        return User.withUsername(usuario.getEmail())
-                .password(usuario.getSenha())
-                .authorities(usuario.getRole().authority())
-                .build();
+        return AuthenticatedUserDetails.from(usuario);
     }
 }

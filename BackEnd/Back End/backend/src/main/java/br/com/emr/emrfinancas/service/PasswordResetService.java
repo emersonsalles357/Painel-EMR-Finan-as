@@ -119,6 +119,7 @@ public class PasswordResetService {
         Usuario usuario = tokenEntity.getUsuario();
         usuario.setSenha(passwordEncoder.encode(request.novaSenha()));
         usuario.resetLockout();
+        usuario.invalidateTokens();
         usuarioRepository.save(usuario);
 
         // Invalida o token marcando como utilizado

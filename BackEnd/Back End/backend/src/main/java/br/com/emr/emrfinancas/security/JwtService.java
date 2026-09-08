@@ -16,6 +16,8 @@ import java.util.List;
 
 @Service
 public class JwtService {
+    private static final String TOKEN_VERSION_CLAIM = "tokenVersion";
+
     private final SecretKey signingKey;
     private final long expirationMillis;
 
@@ -42,6 +44,7 @@ public class JwtService {
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .claim("authorities", authorities)
+                .claim(TOKEN_VERSION_CLAIM, tokenVersionOf(userDetails))
                 .issuedAt(Date.from(issuedAt))
                 .expiration(Date.from(issuedAt.plusMillis(lifetimeMillis)))
                 .signWith(signingKey)
@@ -55,6 +58,7 @@ public class JwtService {
     public boolean isValid(String token, UserDetails userDetails) {
         Claims claims = parseClaims(token);
         return userDetails.getUsername().equals(claims.getSubject())
+                && tokenVersionFrom(claims) == tokenVersionOf(userDetails)
                 && claims.getExpiration().after(new Date());
     }
 
@@ -64,5 +68,20 @@ public class JwtService {
 
     private Claims parseClaims(String token) {
         return Jwts.parser().verifyWith(signingKey).build().parseSignedClaims(token).getPayload();
+    }
+
+    private long tokenVersionOf(UserDetails userDetails) {
+        if (userDetails instanceof AuthenticatedUserDetails authenticatedUser) {
+            return authenticatedUser.getTokenVersion();
+        }
+        return 0;
+    }
+
+    private long tokenVersionFrom(Claims claims) {
+        Object value = claims.get(TOKEN_VERSION_CLAIM);
+        if (value == null) {
+            return 0;
+        }
+        return value instanceof Number number ? number.longValue() : -1;
     }
 }

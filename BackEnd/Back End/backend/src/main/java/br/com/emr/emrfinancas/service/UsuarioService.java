@@ -53,6 +53,7 @@ public class UsuarioService {
         usuario.setNome(usuarioAtualizado.getNome().trim());
         usuario.setEmail(emailNormalizer.normalize(usuarioAtualizado.getEmail()));
         usuario.setSenha(passwordEncoder.encode(usuarioAtualizado.getSenha()));
+        usuario.invalidateTokens();
         return UsuarioResponse.from(usuarioRepository.save(usuario));
     }
 

@@ -49,6 +49,9 @@ public class Usuario {
     @Column(name = "DT_BLOQUEIO_ATE")
     private java.time.Instant lockedUntil;
 
+    @Column(name = "NR_TOKEN_VERSION", nullable = false)
+    private long tokenVersion = 0;
+
     public Long getCodigo() { return codigo; }
     public void setCodigo(Long codigo) { this.codigo = codigo; }
     public String getNome() { return nome; }
@@ -64,6 +67,11 @@ public class Usuario {
     public void setFailedLoginAttempts(int failedLoginAttempts) { this.failedLoginAttempts = failedLoginAttempts; }
     public java.time.Instant getLockedUntil() { return lockedUntil; }
     public void setLockedUntil(java.time.Instant lockedUntil) { this.lockedUntil = lockedUntil; }
+    public long getTokenVersion() { return tokenVersion; }
+
+    public void invalidateTokens() {
+        this.tokenVersion++;
+    }
 
     public boolean isAccountLocked(java.time.Instant now) {
         return lockedUntil != null && lockedUntil.isAfter(now);
