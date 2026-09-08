@@ -9,6 +9,7 @@ vite.config.d.ts
 
 # Backend
 **/target/
+**/cp.txt
 
 # Local environment and secrets
 .env

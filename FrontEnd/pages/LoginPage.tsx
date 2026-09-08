@@ -60,15 +60,17 @@ export function LoginPage() {
 
           <div className="d-flex justify-content-between align-items-center mt-2">
             <label htmlFor="login-password" className="form-label fw-semibold mb-0">Senha</label>
-            <Link to="/esqueci-senha" className="small text-decoration-none text-muted-soft">
-              Esqueci minha senha
-            </Link>
           </div>
           <div className="input-icon mb-1">
             <i className="bi bi-lock"></i>
             <input id="login-password" autoComplete="current-password" name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} className={`form-control ${errors.password ? 'is-invalid' : ''}`} data-required />
           </div>
           {errors.password && <span className="invalid-feedback-live">{errors.password}</span>}
+          <div className="text-end mt-2">
+            <Link to="/esqueci-senha" className="small text-decoration-none text-muted-soft">
+              Esqueci minha senha
+            </Link>
+          </div>
 
           <button type="submit" className="btn btn-primary-gradient w-100 mt-3 py-2" disabled={loading}>
             {loading ? <><span className="spinner-border spinner-border-sm me-2"></span>Entrando...</> : <>Entrar <i className="bi bi-person-circle ms-2"></i></>}

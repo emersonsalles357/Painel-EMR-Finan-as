@@ -1,5 +1,5 @@
 import { Brand } from './Brand';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import styles from './Sidebar.module.css';
@@ -16,11 +16,15 @@ export function Sidebar() {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const isOpenRef = useRef(false);
+  const wasOpenRef = useRef(false);
 
   useEffect(() => {
     const toggleSidebar = () => setIsOpen((open) => !open);
     const closeSidebar = () => setIsOpen(false);
-    const escape = (event: KeyboardEvent) => { if (event.key === 'Escape') { closeSidebar(); document.querySelector<HTMLButtonElement>('[aria-controls="sidebar"]')?.focus(); } };
+    const escape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isOpenRef.current) closeSidebar();
+    };
     window.addEventListener('keydown', escape);
 
     window.addEventListener('sidebar-toggle', toggleSidebar);
@@ -34,6 +38,7 @@ export function Sidebar() {
   }, []);
 
   useEffect(() => {
+    isOpenRef.current = isOpen;
     const media = window.matchMedia('(max-width: 991px)');
     const sidebar = document.getElementById('sidebar');
     const main = document.querySelector<HTMLElement>('.main-wrapper');
@@ -42,6 +47,10 @@ export function Sidebar() {
       if(main) main.inert = media.matches && isOpen;
       document.querySelector('[aria-controls="sidebar"]')?.setAttribute('aria-expanded', String(isOpen));
       if(media.matches && isOpen) sidebar?.querySelector<HTMLElement>('a')?.focus();
+      if(media.matches && !isOpen && wasOpenRef.current) {
+        document.querySelector<HTMLButtonElement>('[aria-controls="sidebar"]')?.focus();
+      }
+      wasOpenRef.current = isOpen;
     };
     apply();media.addEventListener('change',apply);
     return () => { media.removeEventListener('change',apply); if(main) main.inert=false; };
