@@ -110,11 +110,14 @@ export function RegisterPage() {
               onChange={(event) => {
                 setLegalAccepted(event.target.checked);
                 if (event.target.checked) setErrors((current) => ({ ...current, legalAccepted: undefined }));
-              }} aria-describedby={errors.legalAccepted ? 'legalAccepted-error' : undefined} />
-            <label htmlFor="legalAccepted">
+              }} aria-describedby={`legalAccepted-description${errors.legalAccepted ? ' legalAccepted-error' : ''}`} />
+            <label htmlFor="legalAccepted" className="visually-hidden">
+              Aceitar os Termos de Uso e a Política de Privacidade do EMR Finanças
+            </label>
+            <span id="legalAccepted-description">
               Li e concordo com os <Link to="/termos-de-uso">Termos de Uso</Link> e a{' '}
               <Link to="/politica-de-privacidade">Política de Privacidade</Link> do EMR Finanças.
-            </label>
+            </span>
           </div>
           {errors.legalAccepted && <span id="legalAccepted-error" className="invalid-feedback-live">{errors.legalAccepted}</span>}
 
