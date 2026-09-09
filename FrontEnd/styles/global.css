@@ -70,3 +70,32 @@ button, input, select, textarea { font: inherit; }
   animation: shimmer 1.2s infinite;
 }
 @keyframes shimmer { 100% { transform: translateX(100%); } }
+.legal-page {
+  min-height: 100vh;
+  padding: clamp(18px, 4vw, 52px) clamp(16px, 4vw, 40px);
+  color: #eaf8fa;
+  background:
+    radial-gradient(circle at 86% 8%, rgba(62, 216, 205, .18), transparent 25%),
+    linear-gradient(145deg, #06131e, #031018 58%, #052522);
+}
+.legal-shell { width: min(100%, 940px); margin: 0 auto; }
+.legal-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: clamp(24px, 5vw, 46px); }
+.legal-header .emr-logo { width: 100px; height: 100px; object-fit: contain; }
+.legal-brand-link { display: inline-flex; }
+.legal-back-link { display: inline-flex; align-items: center; gap: 8px; color: #c9efed; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+.legal-back-link:hover { color: #7ef5ed; }
+.legal-document { padding: clamp(24px, 5vw, 56px); border: 1px solid rgba(62, 216, 205, .22); border-radius: clamp(20px, 4vw, 32px); background: linear-gradient(145deg, rgba(13, 43, 52, .86), rgba(4, 15, 25, .94)); box-shadow: var(--shadow-md), var(--shadow-glow); }
+.legal-title-block { padding-bottom: clamp(24px, 4vw, 38px); border-bottom: 1px solid rgba(255, 255, 255, .1); }
+.legal-badge { display: inline-block; margin-bottom: 14px; padding: 6px 11px; color: #9af7f1; border: 1px solid rgba(62, 216, 205, .35); border-radius: 999px; background: rgba(62, 216, 205, .08); font-size: .76rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.legal-title-block h1 { max-width: 740px; margin: 0; color: #fff; font-size: clamp(1.65rem, 4vw, 2.65rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.12; }
+.legal-version { margin: 12px 0 0; color: #a9c5ca; font-size: .95rem; }
+.legal-content { padding-top: clamp(26px, 5vw, 46px); }
+.legal-content section + section { margin-top: 36px; }
+.legal-content h2 { margin: 0 0 14px; color: #f5fdff; font-size: clamp(1.08rem, 2vw, 1.28rem); font-weight: 800; line-height: 1.35; }
+.legal-content p, .legal-content li { color: #c8dadd; font-size: 1rem; line-height: 1.78; }
+.legal-content p { margin: 0 0 14px; }
+.legal-content ul { margin: 4px 0 18px; padding-left: 1.4rem; }
+.legal-content li + li { margin-top: 4px; }
+.legal-content strong { color: #eefcfd; }
+.legal-cross-link { margin: 40px 0 0; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, .1); color: #bcd1d4; }
+.legal-page .public-legal-footer { margin-top: 28px; }

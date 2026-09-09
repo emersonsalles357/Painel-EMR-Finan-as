@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../contexts/ToastContext';
+import { DemoEnvironmentNotice, PublicLegalFooter } from '../components/PublicLegal';
 
 export function LoginPage() {
   const { login, loading } = useAuth();
@@ -79,6 +80,8 @@ export function LoginPage() {
             Ainda não tem uma conta? <Link to="/cadastro">Criar conta</Link>
           </p>
         </form>
+        <DemoEnvironmentNotice />
+        <PublicLegalFooter />
       </section>
     </main>
   );
