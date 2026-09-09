@@ -1,4 +1,4 @@
-import type { Gasto, Recebimento, Investimento, User } from '../types';
+import type { Gasto, Recebimento, Investimento } from '../types';
 
 export const isMock = () => import.meta.env.VITE_USE_MOCK_API === 'true';
 
@@ -25,16 +25,6 @@ let _recebimentos = [...seedRecebimentos];
 let _investimentos = [...seedInvestimentos];
 
 export const mockApi = {
-  auth: {
-    async login(_email: string, _password: string) {
-      await delay(500);
-      return {
-        token: `mock-jwt-${Date.now()}`,
-        user: { id: '1', name: 'Gestor EMR', email: 'admin@emrfinancas.com' } as User,
-      };
-    },
-  },
-
   gastos: {
     async list(): Promise<Gasto[]> { await delay(); return [..._gastos]; },
     async create(payload: Omit<Gasto, 'id'>): Promise<Gasto[]> {

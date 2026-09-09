@@ -63,3 +63,9 @@
   display: none;
   background: rgba(0,0,0,.58);
 }
+
+.sidebar{background:var(--emr-bg-primary);box-shadow:none;backdrop-filter:none;padding:12px 10px;overflow-y:auto}
+.sidebarBrand{padding:0 0 18px;letter-spacing:normal}
+.sidebarLink{border-radius:8px;padding:13px 16px;color:var(--muted)}
+.sidebarLink i{font-size:1.2rem}.sidebarLink:hover,.sidebarLink.active{color:var(--primary);background:#003746;border:1px solid #00bad0;transform:none;box-shadow:inset 3px 0 var(--primary),0 0 12px #00d3ec16}
+.sidebarFooter{position:static;margin-top:auto;padding:28px 8px 8px}.logoutBtn{border-radius:8px;padding:10px}.sidebarNav{margin-bottom:36px}

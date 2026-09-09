@@ -1,0 +1,39 @@
+# Frontend
+node_modules/
+dist/
+.npm-cache/
+.m2/
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+
+# Backend
+**/target/
+**/cp.txt
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+.phase10/
+.m2-wrapper/
+*.log
+*.dump
+*.backup
+*.sql.gz
+backups/
+secrets/
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.crt
+*.tmp
+
+# IDE and operating system
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db

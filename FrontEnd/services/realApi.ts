@@ -1,8 +1,8 @@
 import { api } from './_apiClient';
 import type { Gasto, Recebimento, Investimento } from '../types';
 
-function toUser(backend: { codigo: number; nome: string; email: string }): { id: string; name: string; email: string } {
-  return { id: String(backend.codigo), name: backend.nome, email: backend.email };
+function toUser(backend: { id: number; nome: string; email: string; role?: string }): { id: string; name: string; email: string; role?: string } {
+  return { id: String(backend.id), name: backend.nome, email: backend.email, role: backend.role };
 }
 
 function toFrontendRecebimento(b: BackendRecebimento): Recebimento {
@@ -71,11 +71,41 @@ function fromFrontendGasto(g: Partial<Gasto>) {
 
 export const realApi = {
   auth: {
+    async register(request: { nome: string; email: string; senha: string }) {
+      const { data } = await api.post<{
+        id: number; nome: string; email: string; mensagem: string;
+      }>('/auth/register', request);
+      return data;
+    },
     async login(email: string, senha: string) {
-      const { data } = await api.post<{ codigo: number; nome: string; email: string; token: string }>(
+      const { data } = await api.post<{
+        accessToken: string;
+        tokenType: string;
+        expiresIn: number;
+        usuario: { id: number; nome: string; email: string; role: string };
+      }>(
         '/auth/login', { email, senha }
       );
-      return { token: data.token, user: toUser(data) };
+      return { token: data.accessToken, user: toUser(data.usuario) };
+    },
+    async updateProfile(nome: string) {
+      const { data } = await api.patch<{ id: number; nome: string; email: string; role: string }>('/users/me', { nome });
+      return toUser(data);
+    },
+    async changePassword(senhaAtual: string, novaSenha: string) {
+      await api.post('/users/me/password', { senhaAtual, novaSenha });
+    },
+    async me() {
+      const { data } = await api.get<{ id: number; nome: string; email: string; role: string }>('/auth/me');
+      return toUser(data);
+    },
+    async forgotPassword(email: string) {
+      const { data } = await api.post<{ message: string }>('/auth/forgot-password', { email });
+      return data;
+    },
+    async resetPassword(token: string, novaSenha: string) {
+      const { data } = await api.post<{ message: string }>('/auth/reset-password', { token, novaSenha });
+      return data;
     },
   },
 

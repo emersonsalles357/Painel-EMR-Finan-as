@@ -37,6 +37,34 @@
 .input-icon { position: relative; }
 .input-icon i { position: absolute; left: 14px; top: 50%; color: var(--primary); transform: translateY(-50%); }
 .input-icon input { padding-left: 42px; }
+.auth-card-register { width: min(100%, 540px); }
+.password-input input { padding-right: 48px; }
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  z-index: 2;
+  padding: 7px 9px;
+  color: #bcefeb;
+  border: 0;
+  background: transparent;
+  transform: translateY(-50%);
+}
+.password-requirements {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 12px;
+  margin: 8px 0 2px;
+  padding: 0;
+  color: rgba(238, 249, 251, .58);
+  font-size: .78rem;
+  list-style: none;
+}
+.password-requirements li { display: flex; align-items: center; gap: 6px; }
+.password-requirements li.is-valid { color: var(--primary); }
+.auth-switch { color: rgba(238, 249, 251, .66); text-align: center; font-size: .9rem; }
+.auth-switch a { color: var(--primary); font-weight: 700; text-decoration: none; }
+.auth-switch a:hover { text-decoration: underline; }
 .modal-content {
   color: #f5fdff;
   border: 1px solid var(--border);

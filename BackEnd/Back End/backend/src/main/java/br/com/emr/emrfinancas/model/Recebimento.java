@@ -49,7 +49,7 @@ public class Recebimento {
     @Column(name = "DS_STATUS", nullable = false, length = 40)
     private String status;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CD_USUARIO")
     private Usuario usuario;
 

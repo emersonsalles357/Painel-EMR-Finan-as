@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
-  "https://painel-emr-financas.onrender.com/api";
+  "/api";
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
@@ -21,7 +21,7 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       localStorage.removeItem("emr_financas_token");
       localStorage.removeItem("emr_financas_user");
-      window.location.hash = "#/login";
+      window.dispatchEvent(new Event('auth-expired'));
     }
     return Promise.reject(error);
   },

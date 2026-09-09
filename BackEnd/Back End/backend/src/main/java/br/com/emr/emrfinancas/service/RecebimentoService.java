@@ -1,65 +1,70 @@
 package br.com.emr.emrfinancas.service;
 
+import br.com.emr.emrfinancas.dto.RecebimentoRequest;
+import br.com.emr.emrfinancas.dto.RecebimentoResponse;
 import br.com.emr.emrfinancas.exception.RecursoNaoEncontradoException;
 import br.com.emr.emrfinancas.model.Recebimento;
 import br.com.emr.emrfinancas.model.Usuario;
 import br.com.emr.emrfinancas.repository.RecebimentoRepository;
-import br.com.emr.emrfinancas.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class RecebimentoService {
     private final RecebimentoRepository recebimentoRepository;
-    private final UsuarioRepository usuarioRepository;
+    private final AuthenticatedUserService authenticatedUserService;
 
-    public RecebimentoService(RecebimentoRepository recebimentoRepository, UsuarioRepository usuarioRepository) {
+    public RecebimentoService(RecebimentoRepository recebimentoRepository,
+                              AuthenticatedUserService authenticatedUserService) {
         this.recebimentoRepository = recebimentoRepository;
-        this.usuarioRepository = usuarioRepository;
+        this.authenticatedUserService = authenticatedUserService;
     }
 
-    public List<Recebimento> listar() { return recebimentoRepository.findAll(); }
-
-    public Recebimento buscarPorId(Long codigo) {
-        return recebimentoRepository.findById(codigo)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Recebimento nao encontrado"));
+    public List<RecebimentoResponse> listar() {
+        Long usuarioId = authenticatedUserService.getAuthenticatedUser().getCodigo();
+        return recebimentoRepository.findAllByUsuarioCodigo(usuarioId).stream()
+                .map(RecebimentoResponse::from).toList();
     }
 
-    public Recebimento cadastrar(Recebimento recebimento) {
-        preparar(recebimento);
-        return recebimentoRepository.save(recebimento);
+    public RecebimentoResponse buscarPorId(Long codigo) {
+        return RecebimentoResponse.from(buscarDoUsuario(codigo));
     }
 
-    public Recebimento atualizar(Long codigo, Recebimento recebimentoAtualizado) {
-        Recebimento recebimento = buscarPorId(codigo);
-        recebimento.setDescricao(recebimentoAtualizado.getDescricao());
-        recebimento.setOrigem(recebimentoAtualizado.getOrigem());
-        recebimento.setValor(recebimentoAtualizado.getValor());
-        recebimento.setData(recebimentoAtualizado.getData());
-        recebimento.setStatus(recebimentoAtualizado.getStatus());
-        recebimento.setUsuario(recebimentoAtualizado.getUsuario());
-        preparar(recebimento);
-        return recebimentoRepository.save(recebimento);
+    @Transactional
+    public RecebimentoResponse cadastrar(RecebimentoRequest request) {
+        Usuario usuario = authenticatedUserService.getAuthenticatedUser();
+        Recebimento recebimento = new Recebimento();
+        aplicar(request, recebimento);
+        recebimento.setUsuario(usuario);
+        return RecebimentoResponse.from(recebimentoRepository.save(recebimento));
     }
 
+    @Transactional
+    public RecebimentoResponse atualizar(Long codigo, RecebimentoRequest request) {
+        Recebimento recebimento = buscarDoUsuario(codigo);
+        aplicar(request, recebimento);
+        return RecebimentoResponse.from(recebimentoRepository.save(recebimento));
+    }
+
+    @Transactional
     public void deletar(Long codigo) {
-        Recebimento recebimento = buscarPorId(codigo);
-        recebimentoRepository.delete(recebimento);
+        recebimentoRepository.delete(buscarDoUsuario(codigo));
     }
 
-    private void preparar(Recebimento recebimento) {
-        if (recebimento.getData() == null) recebimento.setData(LocalDate.now());
-        if (recebimento.getStatus() == null || recebimento.getStatus().isBlank()) recebimento.setStatus("Recebido");
-        if (recebimento.getUsuario() == null || recebimento.getUsuario().getCodigo() == null) {
-            Usuario usuario = usuarioRepository.findAll().stream().findFirst()
-                    .orElseThrow(() -> new RecursoNaoEncontradoException("Cadastre um usuario antes de cadastrar recebimentos"));
-            recebimento.setUsuario(usuario);
-        } else {
-            Usuario usuario = usuarioRepository.findById(recebimento.getUsuario().getCodigo())
-                    .orElseThrow(() -> new RecursoNaoEncontradoException("Usuario informado nao encontrado"));
-            recebimento.setUsuario(usuario);
-        }
+    private Recebimento buscarDoUsuario(Long codigo) {
+        Long usuarioId = authenticatedUserService.getAuthenticatedUser().getCodigo();
+        return recebimentoRepository.findByCodigoAndUsuarioCodigo(codigo, usuarioId)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Recurso nao encontrado"));
+    }
+
+    private void aplicar(RecebimentoRequest request, Recebimento recebimento) {
+        recebimento.setDescricao(request.descricao());
+        recebimento.setOrigem(request.origem());
+        recebimento.setValor(request.valor());
+        recebimento.setData(request.data());
+        recebimento.setStatus(request.status());
     }
 }

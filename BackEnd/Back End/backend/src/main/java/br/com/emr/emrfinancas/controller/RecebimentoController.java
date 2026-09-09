@@ -1,6 +1,7 @@
 package br.com.emr.emrfinancas.controller;
 
-import br.com.emr.emrfinancas.model.Recebimento;
+import br.com.emr.emrfinancas.dto.RecebimentoRequest;
+import br.com.emr.emrfinancas.dto.RecebimentoResponse;
 import br.com.emr.emrfinancas.service.RecebimentoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -26,22 +27,22 @@ public class RecebimentoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Recebimento>> listar() {
+    public ResponseEntity<List<RecebimentoResponse>> listar() {
         return ResponseEntity.ok(recebimentoService.listar());
     }
 
     @GetMapping("/{codigo}")
-    public ResponseEntity<Recebimento> buscarPorId(@PathVariable Long codigo) {
+    public ResponseEntity<RecebimentoResponse> buscarPorId(@PathVariable Long codigo) {
         return ResponseEntity.ok(recebimentoService.buscarPorId(codigo));
     }
 
     @PostMapping
-    public ResponseEntity<Recebimento> cadastrar(@Valid @RequestBody Recebimento recebimento) {
+    public ResponseEntity<RecebimentoResponse> cadastrar(@Valid @RequestBody RecebimentoRequest recebimento) {
         return ResponseEntity.status(HttpStatus.CREATED).body(recebimentoService.cadastrar(recebimento));
     }
 
     @PutMapping("/{codigo}")
-    public ResponseEntity<Recebimento> atualizar(@PathVariable Long codigo, @Valid @RequestBody Recebimento recebimento) {
+    public ResponseEntity<RecebimentoResponse> atualizar(@PathVariable Long codigo, @Valid @RequestBody RecebimentoRequest recebimento) {
         return ResponseEntity.ok(recebimentoService.atualizar(codigo, recebimento));
     }
 

@@ -51,7 +51,7 @@ public class Gasto {
     @Column(name = "DS_OBSERVACAO", length = 255)
     private String observacao;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CD_USUARIO")
     private Usuario usuario;
 

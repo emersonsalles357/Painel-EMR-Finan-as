@@ -62,9 +62,9 @@ export function CRUDTable<T extends { id: string }>({
           <span className="text-muted-soft small">{filtered.length} registro(s) encontrados</span>
         </div>
         <div className="d-flex gap-2 flex-wrap">
-          <input className="form-control" style={{ maxWidth: '260px' }} placeholder="Buscar em tempo real..." value={query} onChange={handleSearch} />
+          <input className="form-control" style={{ maxWidth: '260px' }} aria-label="Buscar registros" placeholder="Buscar registros..." value={query} onChange={handleSearch} />
           {filters.length > 0 && (
-            <select className="form-select" style={{ maxWidth: '190px' }} value={activeFilter} onChange={handleFilter}>
+            <select aria-label="Filtrar por status" className="form-select" style={{ maxWidth: '190px' }} value={activeFilter} onChange={handleFilter}>
               <option>Todos</option>
               {filters.map((f) => <option key={f}>{f}</option>)}
             </select>

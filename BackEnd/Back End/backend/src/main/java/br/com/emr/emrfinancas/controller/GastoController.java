@@ -1,6 +1,7 @@
 package br.com.emr.emrfinancas.controller;
 
-import br.com.emr.emrfinancas.model.Gasto;
+import br.com.emr.emrfinancas.dto.GastoRequest;
+import br.com.emr.emrfinancas.dto.GastoResponse;
 import br.com.emr.emrfinancas.service.GastoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -26,22 +27,22 @@ public class GastoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Gasto>> listar() {
+    public ResponseEntity<List<GastoResponse>> listar() {
         return ResponseEntity.ok(gastoService.listar());
     }
 
     @GetMapping("/{codigo}")
-    public ResponseEntity<Gasto> buscarPorId(@PathVariable Long codigo) {
+    public ResponseEntity<GastoResponse> buscarPorId(@PathVariable Long codigo) {
         return ResponseEntity.ok(gastoService.buscarPorId(codigo));
     }
 
     @PostMapping
-    public ResponseEntity<Gasto> cadastrar(@Valid @RequestBody Gasto gasto) {
+    public ResponseEntity<GastoResponse> cadastrar(@Valid @RequestBody GastoRequest gasto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(gastoService.cadastrar(gasto));
     }
 
     @PutMapping("/{codigo}")
-    public ResponseEntity<Gasto> atualizar(@PathVariable Long codigo, @Valid @RequestBody Gasto gasto) {
+    public ResponseEntity<GastoResponse> atualizar(@PathVariable Long codigo, @Valid @RequestBody GastoRequest gasto) {
         return ResponseEntity.ok(gastoService.atualizar(codigo, gasto));
     }
 

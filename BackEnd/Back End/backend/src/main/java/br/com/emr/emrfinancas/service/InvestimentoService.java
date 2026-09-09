@@ -1,65 +1,71 @@
 package br.com.emr.emrfinancas.service;
 
+import br.com.emr.emrfinancas.dto.InvestimentoRequest;
+import br.com.emr.emrfinancas.dto.InvestimentoResponse;
 import br.com.emr.emrfinancas.exception.RecursoNaoEncontradoException;
 import br.com.emr.emrfinancas.model.Investimento;
 import br.com.emr.emrfinancas.model.Usuario;
 import br.com.emr.emrfinancas.repository.InvestimentoRepository;
-import br.com.emr.emrfinancas.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class InvestimentoService {
     private final InvestimentoRepository investimentoRepository;
-    private final UsuarioRepository usuarioRepository;
+    private final AuthenticatedUserService authenticatedUserService;
 
-    public InvestimentoService(InvestimentoRepository investimentoRepository, UsuarioRepository usuarioRepository) {
+    public InvestimentoService(InvestimentoRepository investimentoRepository,
+                               AuthenticatedUserService authenticatedUserService) {
         this.investimentoRepository = investimentoRepository;
-        this.usuarioRepository = usuarioRepository;
+        this.authenticatedUserService = authenticatedUserService;
     }
 
-    public List<Investimento> listar() { return investimentoRepository.findAll(); }
-
-    public Investimento buscarPorId(Long codigo) {
-        return investimentoRepository.findById(codigo)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Investimento nao encontrado"));
+    public List<InvestimentoResponse> listar() {
+        Long usuarioId = authenticatedUserService.getAuthenticatedUser().getCodigo();
+        return investimentoRepository.findAllByUsuarioCodigo(usuarioId).stream()
+                .map(InvestimentoResponse::from).toList();
     }
 
-    public Investimento cadastrar(Investimento investimento) {
-        preparar(investimento);
-        return investimentoRepository.save(investimento);
+    public InvestimentoResponse buscarPorId(Long codigo) {
+        return InvestimentoResponse.from(buscarDoUsuario(codigo));
     }
 
-    public Investimento atualizar(Long codigo, Investimento investimentoAtualizado) {
-        Investimento investimento = buscarPorId(codigo);
-        investimento.setNome(investimentoAtualizado.getNome());
-        investimento.setTipo(investimentoAtualizado.getTipo());
-        investimento.setInstituicao(investimentoAtualizado.getInstituicao());
-        investimento.setValorAplicado(investimentoAtualizado.getValorAplicado());
-        investimento.setRentabilidadeMensal(investimentoAtualizado.getRentabilidadeMensal());
-        investimento.setDataAplicacao(investimentoAtualizado.getDataAplicacao());
-        investimento.setUsuario(investimentoAtualizado.getUsuario());
-        preparar(investimento);
-        return investimentoRepository.save(investimento);
+    @Transactional
+    public InvestimentoResponse cadastrar(InvestimentoRequest request) {
+        Usuario usuario = authenticatedUserService.getAuthenticatedUser();
+        Investimento investimento = new Investimento();
+        aplicar(request, investimento);
+        investimento.setUsuario(usuario);
+        return InvestimentoResponse.from(investimentoRepository.save(investimento));
     }
 
+    @Transactional
+    public InvestimentoResponse atualizar(Long codigo, InvestimentoRequest request) {
+        Investimento investimento = buscarDoUsuario(codigo);
+        aplicar(request, investimento);
+        return InvestimentoResponse.from(investimentoRepository.save(investimento));
+    }
+
+    @Transactional
     public void deletar(Long codigo) {
-        Investimento investimento = buscarPorId(codigo);
-        investimentoRepository.delete(investimento);
+        investimentoRepository.delete(buscarDoUsuario(codigo));
     }
 
-    private void preparar(Investimento investimento) {
-        if (investimento.getDataAplicacao() == null) investimento.setDataAplicacao(LocalDate.now());
-        if (investimento.getUsuario() == null || investimento.getUsuario().getCodigo() == null) {
-            Usuario usuario = usuarioRepository.findAll().stream().findFirst()
-                    .orElseThrow(() -> new RecursoNaoEncontradoException("Cadastre um usuario antes de cadastrar investimentos"));
-            investimento.setUsuario(usuario);
-        } else {
-            Usuario usuario = usuarioRepository.findById(investimento.getUsuario().getCodigo())
-                    .orElseThrow(() -> new RecursoNaoEncontradoException("Usuario informado nao encontrado"));
-            investimento.setUsuario(usuario);
-        }
+    private Investimento buscarDoUsuario(Long codigo) {
+        Long usuarioId = authenticatedUserService.getAuthenticatedUser().getCodigo();
+        return investimentoRepository.findByCodigoAndUsuarioCodigo(codigo, usuarioId)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Recurso nao encontrado"));
+    }
+
+    private void aplicar(InvestimentoRequest request, Investimento investimento) {
+        investimento.setNome(request.nome());
+        investimento.setTipo(request.tipo());
+        investimento.setInstituicao(request.instituicao());
+        investimento.setValorAplicado(request.valorAplicado());
+        investimento.setRentabilidadeMensal(request.rentabilidadeMensal());
+        investimento.setDataAplicacao(request.dataAplicacao());
     }
 }

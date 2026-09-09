@@ -1,3 +1,5 @@
+import { FinancialStatus } from '../components/FinancialStatus';
+import { useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import { Navbar } from '../components/Navbar';
 import { CRUDTable } from '../components/CRUDTable';
@@ -23,7 +25,8 @@ export function InvestimentosPage() {
   const { investimentos, setInvestimentos } = useFinancas();
   const { showToast } = useToast();
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const [params, setParams] = useSearchParams();
+  const [modalOpen, setModalOpen] = useState(params.get('novo') === '1');
   const [editingItem, setEditingItem] = useState<Investimento | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
@@ -40,7 +43,7 @@ export function InvestimentosPage() {
     }
     const refreshed = await investimentosService.list();
     setInvestimentos(refreshed);
-    setModalOpen(false);
+    setModalOpen(false); setParams({}, {replace:true});
     setEditingItem(null);
   };
 
@@ -64,6 +67,7 @@ export function InvestimentosPage() {
             <p className="text-muted-soft mb-0">Acompanhe ativos, alocação e rentabilidade.</p>
           </div>
         </div>
+        <FinancialStatus />
         <CRUDTable
           columns={COLUMNS}
           rows={investimentos}
@@ -78,7 +82,7 @@ export function InvestimentosPage() {
       {modalOpen && (
         <Modal
           title={`${editingItem ? 'Editar' : 'Novo'} Investimento`}
-          onClose={() => { setModalOpen(false); setEditingItem(null); }}
+          onClose={() => { setModalOpen(false); setParams({}, {replace:true}); setEditingItem(null); }}
           onSave={handleSave}
           initialData={initial}
           fields={[
