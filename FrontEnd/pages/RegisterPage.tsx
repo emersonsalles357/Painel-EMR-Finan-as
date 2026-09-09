@@ -5,8 +5,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { authService } from '../services/api';
 import { useToast } from '../contexts/ToastContext';
+import { DemoEnvironmentNotice, PublicLegalFooter } from '../components/PublicLegal';
 
-type FieldErrors = Partial<Record<'nome' | 'email' | 'senha' | 'confirmarSenha' | 'form', string>>;
+type FieldErrors = Partial<Record<'nome' | 'email' | 'senha' | 'confirmarSenha' | 'legalAccepted' | 'form', string>>;
 
 export function RegisterPage() {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ export function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [legalAccepted, setLegalAccepted] = useState(false);
   const [errors, setErrors] = useState<FieldErrors>({});
 
   const requirements = useMemo(() => passwordRequirements(senha), [senha]);
@@ -32,6 +34,7 @@ export function RegisterPage() {
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) next.email = 'Informe um e-mail válido.';
     if (!requirements.every((requirement) => requirement.valid)) next.senha = 'A senha ainda não atende a todos os requisitos.';
     if (senha !== confirmarSenha) next.confirmarSenha = 'As senhas não coincidem.';
+    if (!legalAccepted) next.legalAccepted = 'Você precisa aceitar os Termos de Uso e a Política de Privacidade.';
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -102,12 +105,30 @@ export function RegisterPage() {
             visible={showConfirmation} onChange={setConfirmarSenha}
             onToggle={() => setShowConfirmation((value) => !value)} error={errors.confirmarSenha} />
 
+          <div className={`legal-consent mt-3 ${errors.legalAccepted ? 'has-error' : ''}`}>
+            <input id="legalAccepted" type="checkbox" checked={legalAccepted}
+              onChange={(event) => {
+                setLegalAccepted(event.target.checked);
+                if (event.target.checked) setErrors((current) => ({ ...current, legalAccepted: undefined }));
+              }} aria-describedby={`legalAccepted-description${errors.legalAccepted ? ' legalAccepted-error' : ''}`} />
+            <label htmlFor="legalAccepted" className="visually-hidden">
+              Aceitar os Termos de Uso e a Política de Privacidade do EMR Finanças
+            </label>
+            <span id="legalAccepted-description">
+              Li e concordo com os <Link to="/termos-de-uso">Termos de Uso</Link> e a{' '}
+              <Link to="/politica-de-privacidade">Política de Privacidade</Link> do EMR Finanças.
+            </span>
+          </div>
+          {errors.legalAccepted && <span id="legalAccepted-error" className="invalid-feedback-live">{errors.legalAccepted}</span>}
+
           {errors.form && <div className="alert alert-danger py-2 mt-3 mb-0" role="alert">{errors.form}</div>}
           <button type="submit" className="btn btn-primary-gradient w-100 mt-3 py-2" disabled={loading}>
             {loading ? <><span className="spinner-border spinner-border-sm me-2"></span>Criando conta...</> : <>Criar conta <i className="bi bi-arrow-right ms-2"></i></>}
           </button>
           <p className="auth-switch mb-0 mt-3">Já possui uma conta? <Link to="/login">Voltar ao login</Link></p>
         </form>
+        <DemoEnvironmentNotice />
+        <PublicLegalFooter />
       </section>
     </main>
   );

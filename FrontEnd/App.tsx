@@ -16,6 +16,8 @@ import { RecebimentosPage } from './pages/RecebimentosPage';
 import { InvestimentosPage } from './pages/InvestimentosPage';
 import { PerfilPage } from './pages/PerfilPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { TermsOfUsePage } from './pages/TermsOfUsePage';
+import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/variables.css';
@@ -49,6 +51,8 @@ export default function App() {
               <Route path="/cadastro" element={<RegisterPage />} />
               <Route path="/esqueci-senha" element={<ForgotPasswordPage />} />
               <Route path="/redefinir-senha" element={<ResetPasswordPage />} />
+              <Route path="/termos-de-uso" element={<TermsOfUsePage />} />
+              <Route path="/politica-de-privacidade" element={<PrivacyPolicyPage />} />
               <Route
                 path="/dashboard"
                 element={

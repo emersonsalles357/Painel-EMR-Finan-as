@@ -16,4 +16,11 @@
   .table-toolbar > * { width: 100%; }
   .quick-grid { grid-template-columns: 1fr; }
   .access-panel, .assistant-panel { padding: 20px; }
+  .auth-layout { padding: 14px; }
+  .auth-card { padding: 22px 18px; }
+  .password-requirements { grid-template-columns: 1fr; }
+  .legal-header { align-items: flex-start; }
+  .legal-header .emr-logo { width: 76px; height: 76px; }
+  .legal-back-link { margin-top: 12px; font-size: .85rem; }
+  .legal-content p, .legal-content li { font-size: .94rem; line-height: 1.7; }
 }
