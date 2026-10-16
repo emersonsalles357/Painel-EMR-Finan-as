@@ -10,11 +10,11 @@ import br.com.emr.emrfinancas.model.UserRole;
 import br.com.emr.emrfinancas.model.Usuario;
 import br.com.emr.emrfinancas.repository.UsuarioRepository;
 import br.com.emr.emrfinancas.security.JwtService;
+import br.com.emr.emrfinancas.security.AuthenticatedUserDetails;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -62,16 +62,14 @@ public class AuthService {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(normalizedEmail, loginRequest.getSenha()));
-            UserDetails principal = (UserDetails) authentication.getPrincipal();
-            Usuario usuario = usuarioRepository.findByEmailIgnoreCase(principal.getUsername()).orElseThrow();
+            AuthenticatedUserDetails principal = (AuthenticatedUserDetails) authentication.getPrincipal();
 
-            if (usuario.getFailedLoginAttempts() > 0 || usuario.getLockedUntil() != null) {
-                usuario.resetLockout();
-                usuarioRepository.save(usuario);
+            if (principal.hasLoginFailures()) {
+                usuarioRepository.resetLoginFailuresByCodigo(principal.getUsuarioResponse().id());
             }
 
             return new LoginResponse(jwtService.generateToken(principal), jwtService.getExpirationSeconds(),
-                    UsuarioResponse.from(usuario));
+                    principal.getUsuarioResponse());
         } catch (org.springframework.security.core.AuthenticationException exception) {
             if (usuarioOpt.isPresent()) {
                 Usuario usuario = usuarioOpt.get();

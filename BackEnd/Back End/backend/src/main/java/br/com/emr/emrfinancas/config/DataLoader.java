@@ -4,6 +4,7 @@ import br.com.emr.emrfinancas.model.Usuario;
 import br.com.emr.emrfinancas.model.UserRole;
 import br.com.emr.emrfinancas.repository.UsuarioRepository;
 import br.com.emr.emrfinancas.service.EmailNormalizer;
+import br.com.emr.emrfinancas.service.PasswordPolicyValidator;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Profile("dev")
 @ConditionalOnProperty(name = "app.dev.seed-user.enabled", havingValue = "true")
 public class DataLoader {
+    private final PasswordPolicyValidator passwordPolicyValidator;
+
+    public DataLoader(PasswordPolicyValidator passwordPolicyValidator) {
+        this.passwordPolicyValidator = passwordPolicyValidator;
+    }
+
     @Bean
     CommandLineRunner seedUsuario(
             UsuarioRepository usuarioRepository,
@@ -26,6 +33,7 @@ public class DataLoader {
             @Value("${DEV_SEED_USER_PASSWORD}") String senha) {
         return args -> {
             if (usuarioRepository.count() == 0) {
+                passwordPolicyValidator.validate(senha);
                 Usuario usuario = new Usuario();
                 usuario.setNome(nome.trim());
                 usuario.setEmail(emailNormalizer.normalize(email));

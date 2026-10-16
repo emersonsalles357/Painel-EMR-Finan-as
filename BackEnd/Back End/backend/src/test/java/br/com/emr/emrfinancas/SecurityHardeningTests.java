@@ -2,7 +2,7 @@ package br.com.emr.emrfinancas;
 
 import br.com.emr.emrfinancas.exception.GlobalExceptionHandler;
 import br.com.emr.emrfinancas.model.Usuario;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
@@ -11,7 +11,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SecurityHardeningTests {
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = tools.jackson.databind.json.JsonMapper.builder().build();
 
     @Test
     void naoSerializaSenhaDoUsuario() throws Exception {

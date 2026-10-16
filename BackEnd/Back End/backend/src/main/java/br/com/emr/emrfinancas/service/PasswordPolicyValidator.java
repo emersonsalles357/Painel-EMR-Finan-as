@@ -1,6 +1,7 @@
 package br.com.emr.emrfinancas.service;
 
 import br.com.emr.emrfinancas.exception.RegraNegocioException;
+import br.com.emr.emrfinancas.security.PasswordByteLimits;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -9,8 +10,8 @@ public class PasswordPolicyValidator {
         if (password == null || password.length() < 10) {
             throw new RegraNegocioException("A senha deve possuir pelo menos 10 caracteres");
         }
-        if (password.length() > 72) {
-            throw new RegraNegocioException("A senha deve possuir no maximo 72 caracteres");
+        if (!PasswordByteLimits.isAcceptableForBcrypt(password)) {
+            throw new RegraNegocioException("A senha deve possuir UTF-8 valido e no maximo 72 bytes");
         }
         if (password.chars().noneMatch(Character::isUpperCase)) {
             throw new RegraNegocioException("A senha deve conter uma letra maiuscula");

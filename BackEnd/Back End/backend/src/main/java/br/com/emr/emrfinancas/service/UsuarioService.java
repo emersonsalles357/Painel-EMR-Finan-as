@@ -16,12 +16,14 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailNormalizer emailNormalizer;
+    private final PasswordPolicyValidator passwordPolicyValidator;
 
     public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder,
-                          EmailNormalizer emailNormalizer) {
+                          EmailNormalizer emailNormalizer, PasswordPolicyValidator passwordPolicyValidator) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailNormalizer = emailNormalizer;
+        this.passwordPolicyValidator = passwordPolicyValidator;
     }
 
     public List<UsuarioResponse> listar() {
@@ -38,6 +40,7 @@ public class UsuarioService {
     }
 
     public UsuarioResponse cadastrar(Usuario usuario) {
+        passwordPolicyValidator.validate(usuario.getSenha());
         usuario.setNome(usuario.getNome().trim());
         usuario.setEmail(emailNormalizer.normalize(usuario.getEmail()));
         usuarioRepository.findByEmailIgnoreCase(usuario.getEmail()).ifPresent(u -> {
@@ -49,6 +52,7 @@ public class UsuarioService {
     }
 
     public UsuarioResponse atualizar(Long codigo, Usuario usuarioAtualizado) {
+        passwordPolicyValidator.validate(usuarioAtualizado.getSenha());
         Usuario usuario = buscarEntidade(codigo);
         usuario.setNome(usuarioAtualizado.getNome().trim());
         usuario.setEmail(emailNormalizer.normalize(usuarioAtualizado.getEmail()));

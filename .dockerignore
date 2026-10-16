@@ -1,5 +1,6 @@
 .git
 .gitignore
+.superpowers
 .npm-cache
 .m2
 node_modules

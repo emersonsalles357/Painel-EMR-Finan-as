@@ -1,6 +1,7 @@
 package br.com.emr.emrfinancas.config;
 
 import br.com.emr.emrfinancas.security.CustomUserDetailsService;
+import br.com.emr.emrfinancas.security.Utf8BoundedBcryptPasswordEncoder;
 import br.com.emr.emrfinancas.security.JsonAccessDeniedHandler;
 import br.com.emr.emrfinancas.security.JsonAuthenticationEntryPoint;
 import br.com.emr.emrfinancas.security.JwtAuthenticationFilter;
@@ -22,14 +23,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     @Bean
     PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new Utf8BoundedBcryptPasswordEncoder(new BCryptPasswordEncoder());
     }
 
     @Bean
     AuthenticationManager authenticationManager(CustomUserDetailsService userDetailsService,
                                                 PasswordEncoder passwordEncoder) {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder);
         return new ProviderManager(provider);
     }

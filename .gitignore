@@ -37,3 +37,5 @@ secrets/
 *.iml
 .DS_Store
 Thumbs.db
+# Local backend performance evidence and original snapshots.
+.superpowers/

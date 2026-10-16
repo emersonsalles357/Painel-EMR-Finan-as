@@ -17,7 +17,6 @@ public class RegisterRequest {
     private String email;
 
     @NotBlank(message = "A senha e obrigatoria")
-    @Size(max = 72, message = "A senha deve ter no maximo 72 caracteres")
     private String senha;
 
     public RegisterRequest() {}

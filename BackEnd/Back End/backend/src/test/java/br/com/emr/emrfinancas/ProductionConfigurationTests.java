@@ -61,4 +61,10 @@ class ProductionConfigurationTests {
         env.getPropertySources().addLast(new ResourcePropertySource(new ClassPathResource("application-dev.properties")));
         assertThat(env.getProperty("spring.datasource.url")).isEqualTo("jdbc:postgresql://localhost:5432/emr_financas");
     }
+
+    @Test void respectsPortProvidedByHostingPlatform() throws Exception {
+        MockEnvironment env = new MockEnvironment().withProperty("PORT", "10000");
+        env.getPropertySources().addLast(new ResourcePropertySource(new ClassPathResource("application.properties")));
+        assertThat(env.getProperty("server.port")).isEqualTo("10000");
+    }
 }

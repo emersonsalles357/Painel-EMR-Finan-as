@@ -7,7 +7,7 @@ RUN mvn --batch-mode --no-transfer-progress clean package
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 RUN groupadd --system emr && useradd --system --gid emr emr
-COPY --from=build --chown=emr:emr /build/target/emr-financas-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY --from=build --chown=emr:emr /build/target/app.jar /app/app.jar
 USER emr
 ENV SPRING_PROFILES_ACTIVE=prod
 EXPOSE 8080

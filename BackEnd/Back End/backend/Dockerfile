@@ -18,6 +18,7 @@ WORKDIR /app
 COPY --from=build --chown=spring:spring /workspace/target/app.jar /app/app.jar
 
 USER spring:spring
+ENV SPRING_PROFILES_ACTIVE=prod
 EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

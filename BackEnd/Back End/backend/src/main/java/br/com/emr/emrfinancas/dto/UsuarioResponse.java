@@ -2,7 +2,7 @@ package br.com.emr.emrfinancas.dto;
 
 import br.com.emr.emrfinancas.model.Usuario;
 
-public record UsuarioResponse(Long id, String nome, String email, String role) {
+public record UsuarioResponse(Long id, String nome, String email, String role) implements java.io.Serializable {
     public static UsuarioResponse from(Usuario usuario) {
         return new UsuarioResponse(usuario.getCodigo(), usuario.getNome(), usuario.getEmail(),
                 usuario.getRole().authority());

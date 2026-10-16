@@ -1,0 +1,956 @@
+{
+  "source": "Task 4 candidate; eight test files normalized only at EOF, per revised approval pending",
+  "baseGitHead": "cb2520b54d88a40027297744be6e1c62a9832257",
+  "files": [
+    {
+      "path": ".dockerignore",
+      "sha256": "1903ef94493cf64011b20ed12c397b263c75867bb99b1b0445ba54e0c2a368ca",
+      "bytes": 232
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "6d4f686324d203226d7399c812db6be7ca094adc3b82cabaa7d7b29acd67e778",
+      "bytes": 444
+    },
+    {
+      "path": "BackEnd/Back End/backend/.dockerignore",
+      "sha256": "21f9c83d4e9750c68ceaf30dce8af9816ee3a5c3c67c8615182b8986e58dc382",
+      "bytes": 68
+    },
+    {
+      "path": "BackEnd/Back End/backend/.gitattributes",
+      "sha256": "5775a77ad2f6d12dde053a3fb0cca4309189163f0888f4e7e984cd0ab327028b",
+      "bytes": 38
+    },
+    {
+      "path": "BackEnd/Back End/backend/.gitignore",
+      "sha256": "089382e4d7944ab6cb6900a1269678ebff93c00d441ada788cd05a8da182b22b",
+      "bytes": 394
+    },
+    {
+      "path": "BackEnd/Back End/backend/.mvn/wrapper/maven-wrapper.properties",
+      "sha256": "402933edce21330da52e94a501e5458630b4687700e4353d2d9f2fd5292f44b9",
+      "bytes": 168
+    },
+    {
+      "path": "BackEnd/Back End/backend/Dockerfile",
+      "sha256": "187ef68f3ebb2824e3d5ccd48b55df0654e92f15dc17e95739ba032479f37b4d",
+      "bytes": 520
+    },
+    {
+      "path": "BackEnd/Back End/backend/mvnw",
+      "sha256": "cae96cef89ebea3531221f4ae17c23cf8edf67d00eae8306d4186ae1bbed4d02",
+      "bytes": 11790
+    },
+    {
+      "path": "BackEnd/Back End/backend/mvnw.cmd",
+      "sha256": "09a07a088bcd13e0c1313961a0a6ce899af1e568dfd060d141642bbe14eaf0f3",
+      "bytes": 8528
+    },
+    {
+      "path": "BackEnd/Back End/backend/pom.xml",
+      "sha256": "d5bced2720587efa1c74df40d34510e64f2d3814b034b715ba4bfd3a16e635cd",
+      "bytes": 4388
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/EmrFinancasApplication.java",
+      "sha256": "e6f7fc0a7758682784438f58eddf52da8610ddcf6f5cd49638d9f188e97380fb",
+      "bytes": 715
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/config/CorsConfig.java",
+      "sha256": "2c13843c208f281552f508b4a89add9718673b0adf85306bb645d73f7f5bc792",
+      "bytes": 1268
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/config/DataLoader.java",
+      "sha256": "0c4431048bdb824da9df681c31ab3e2e7db41a764d810593bbef66a957fd2522",
+      "bytes": 1940
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/config/ProductionConfigGuard.java",
+      "sha256": "0ef2e7444b82149696653e2ddc1be5e34148c81387234da1c04659f8a4a0fefc",
+      "bytes": 5088
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/config/SecurityConfig.java",
+      "sha256": "58f2686f586510b77849429652293bf274ce8f689eefb96df6de404c662c322d",
+      "bytes": 3355
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/config/StartupMetricsReporter.java",
+      "sha256": "35120782e736725778b65ad56e339974bc3b2a1c2ea4a9c6b124f417d32af80c",
+      "bytes": 2732
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/controller/AuthController.java",
+      "sha256": "1ec379c070faa07cc22c0100355b7216dde204b4dfad19f73c076d3a5f13eb7e",
+      "bytes": 3804
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/controller/DashboardController.java",
+      "sha256": "71caa9f0600fa920efbd911c3aa678ac82b5026806fb100af3409b9ae79d0fbc",
+      "bytes": 800
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/controller/GastoController.java",
+      "sha256": "f5dc191c34d92f934df42683120dceb69fdae66209592730947446847a448b3d",
+      "bytes": 2021
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/controller/HealthController.java",
+      "sha256": "9885bb05d4cd44dbcdaa82ad9a233846ee15fb13fe2bb2cb366afd137af5f6b2",
+      "bytes": 437
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/controller/InvestimentoController.java",
+      "sha256": "dd2d483787fd5676b9bbc746e09ef5cfca26c90e4d05e51ecd3386783b1c101b",
+      "bytes": 2210
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/controller/ProfileController.java",
+      "sha256": "0661dec61457956570bd141d80cdb520b9318f6276476ab11317069bbf9583ed",
+      "bytes": 848
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/controller/RecebimentoController.java",
+      "sha256": "62d12fc9e9df91782eee24a8d05712068626e762b0a2c3632f81f0887330eea9",
+      "bytes": 2183
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/controller/UsuarioController.java",
+      "sha256": "e1e3760ea3a9c2c933cec2e02d890d676c05bdb436dcedc2524f235021d639c5",
+      "bytes": 2056
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/dto/ChangePasswordRequest.java",
+      "sha256": "a8f42ddb323aeeadeec3e3bd76c92ece898e627340f8636733c0e01b83698cfc",
+      "bytes": 199
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/dto/DashboardResponse.java",
+      "sha256": "78db2b6077cb085b9c5f149e1f3372c93d0d09269eabf1a8cf3ed06e5eb5c7fa",
+      "bytes": 835
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/dto/ForgotPasswordRequest.java",
+      "sha256": "4cd717fbdddd2472a022bef588a156c449450566aada4b212600b0171dc6f6ab",
+      "bytes": 301
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/dto/ForgotPasswordResponse.java",
+      "sha256": "1e6f4daad8d702af0c1ad893f1ef91694fa3ee75839f3eb3f3515013d49203f6",
+      "bytes": 376
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/dto/GastoRequest.java",
+      "sha256": "fd8463edbe6f79338fc999ed05a90b3b4d9075ef9b4a719d764dc7f5c8c02046",
+      "bytes": 975
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/dto/GastoResponse.java",
+      "sha256": "8e6ae9a0f4e86325988cdbac0f3d8d579fa8f643d97a45011d66998bb7ce8f26",
+      "bytes": 580
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/dto/InvestimentoRequest.java",
+      "sha256": "413f721268ea3bc1307aeda2afc537d955f5f25d54e04e3ccdb7d809f5b1fb3f",
+      "bytes": 994
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/dto/InvestimentoResponse.java",
+      "sha256": "af397d448fbcd4eb78fe0434e7f516864d226c20160feb078bc7f7702a697f9e",
+      "bytes": 759
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/dto/LoginRequest.java",
+      "sha256": "b4c99873857fff42ce3d4f71485d51fec98a5ea72aa8025bb24469943e7e630a",
+      "bytes": 749
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/dto/LoginResponse.java",
+      "sha256": "f074f3ccb3eb11b7aec158a77d3449fa9c7a3bbd70c428653b5dab6e1ea1a30f",
+      "bytes": 685
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/dto/RecebimentoRequest.java",
+      "sha256": "d96074352065c185ecad75fda6c76adb3b509f942da53386657ba35531885c40",
+      "bytes": 1016
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/dto/RecebimentoResponse.java",
+      "sha256": "bcbad6dfa0547c1fda2825c3889f158ed0b3a176c5f9c31fc8bef505d20ec30d",
+      "bytes": 594
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/dto/RegisterRequest.java",
+      "sha256": "ab63312521d2f33c3601176fa603528ac2008034241d21c3d5ca111d107287e6",
+      "bytes": 1320
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/dto/RegisterResponse.java",
+      "sha256": "a614cbe0197e3748b3e723ba1e349de41fa39cec2c58c348516288d31697da92",
+      "bytes": 377
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/dto/ResetPasswordRequest.java",
+      "sha256": "fea7be68b45585a75aa0a3824be00b29474f90fe55b8ff1a52ea498fd29af55a",
+      "bytes": 286
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/dto/ResetPasswordResponse.java",
+      "sha256": "0f3f5958fbfc282b044a7b7cd4ee577862264dbcecdff555c89e3bbd91c6dad1",
+      "bytes": 226
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/dto/UpdateProfileRequest.java",
+      "sha256": "79e70b5b54f0da7ad88519baf83777d520702c089ccb5cd15afa08900b1da1dd",
+      "bytes": 580
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/dto/UsuarioResponse.java",
+      "sha256": "1abdf12f2f2375b29fb66ec9f9976a4df7f2dd1fb7c74464a654b73503697bdd",
+      "bytes": 405
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/exception/EmailJaCadastradoException.java",
+      "sha256": "efc126e686c4ba1164418df4066c92b476cd55fc0041efce97de995d06b9f381",
+      "bytes": 199
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/exception/GlobalExceptionHandler.java",
+      "sha256": "d6fa106ea3d5edf3865a4de2ed2fa6a383ab9694c1cb405074ebeff47288e51f",
+      "bytes": 3927
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/exception/RateLimitExceededException.java",
+      "sha256": "0938a32ffda4f1dc69158402d03922b330e24bba38e634307bf684162757b9d8",
+      "bytes": 312
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/exception/RecursoNaoEncontradoException.java",
+      "sha256": "5ac51bcb3061d834f9b011024789f369c1072234f7468d131632190baff5cf6c",
+      "bytes": 206
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/exception/RegraNegocioException.java",
+      "sha256": "499f6b3c5ec67cdb509dc455c43083509f603be63cb61f8e9843e88182c23cdb",
+      "bytes": 190
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/model/Gasto.java",
+      "sha256": "cff8c70a155f81abeb66f4141898e169e74d1b4844bea38f8e2ef06f4c1b3b61",
+      "bytes": 3055
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/model/Investimento.java",
+      "sha256": "c10cc3597f6c4b20347fd6bdeb4b9bd6f6f65baab4bcba5816618bca970569d5",
+      "bytes": 3220
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/model/PasswordResetToken.java",
+      "sha256": "34e4f75c8945db55a44dbbb6c6de22a0d7ea27ebcdf82b4aaa268daaf662768f",
+      "bytes": 2589
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/model/Recebimento.java",
+      "sha256": "acaeb19b5a4f3185c4f0a956c6e41f2d5b71a11115e809a563f6a19b304bc20f",
+      "bytes": 2887
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/model/UserRole.java",
+      "sha256": "8536bfe260a3c6f5ba8c0967c1fa67ffc1e0f6fc7043fb41c3151cac2b7d8183",
+      "bytes": 157
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/model/Usuario.java",
+      "sha256": "a4eabe31283de11fbaa5633ee0bd3214ef9933ac56fca0e9885e4494ae381db4",
+      "bytes": 3601
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/repository/GastoRepository.java",
+      "sha256": "27ea7db429da9b9960f739b1146b2805d6640f1e7ef8818189ed13f1488cb5e0",
+      "bytes": 713
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/repository/InvestimentoRepository.java",
+      "sha256": "82ee7637c3a85c8572a3d34e00c75eb8fb1633efe5086d4b5482d5943071c3c2",
+      "bytes": 763
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/repository/PasswordResetTokenRepository.java",
+      "sha256": "d4ab69470f75a2cd6183cbf21e32d37368a64d395f1ad1373816a5ec81091771",
+      "bytes": 980
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/repository/RecebimentoRepository.java",
+      "sha256": "44b2648af152d157b8ae621d3e197d752bf8c0901d93e6c4d1ee55506a1038e3",
+      "bytes": 749
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/repository/UsuarioRepository.java",
+      "sha256": "18bc19f4b62974aec4628ba750d27a4799c58172599afba89ff29ff903db0d49",
+      "bytes": 1067
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/security/AuthenticatedUserDetails.java",
+      "sha256": "220e095f3bd229db659d2bc62b1d60a9629ba4b661eafb847b6a356d07d53864",
+      "bytes": 2488
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/security/ClientIpResolver.java",
+      "sha256": "0d0b79b2a9b185f09bf4866dc60d127242efc6297d5457be77f503506dc3678b",
+      "bytes": 2850
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/security/CustomUserDetailsService.java",
+      "sha256": "58549b363af672a2f60e967e1a6554458832c0ec415c9a748938edf512767fb8",
+      "bytes": 1231
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/security/JsonAccessDeniedHandler.java",
+      "sha256": "9333c312c4e34c9b14974c46b9a3eb5c0ccc05116fcceebe7e900c40e57f35ac",
+      "bytes": 1371
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/security/JsonAuthenticationEntryPoint.java",
+      "sha256": "624c667565b2380473d1bec9e59aacdfcb8869ed14f19605618a165fe17acb07",
+      "bytes": 1398
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/security/JwtAuthenticationFilter.java",
+      "sha256": "7efbc2cda168d3838eef0f72a3865a918bc8e308d5ff06a5ecf774032e4d12c0",
+      "bytes": 2675
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/security/JwtService.java",
+      "sha256": "ac67daabf8062d7fa2343ff217504c9b7d6b34d6135f9ceb05b6b91a26008dfc",
+      "bytes": 4501
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/security/PasswordByteLimits.java",
+      "sha256": "bfc89ddec60c84fa13c04c9af5779c79c571a0bd2100d0b011279953bb4e1e1e",
+      "bytes": 1043
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/security/RateLimiterService.java",
+      "sha256": "3a22f422a11a153a8a10eaacbb2558a599d41251d3fbebdfaa7860d4f7879ca9",
+      "bytes": 3904
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/security/Utf8BoundedBcryptPasswordEncoder.java",
+      "sha256": "5b19ed089d5832560237814e6681cf1cbd142dbf259577a740e1568841ce099d",
+      "bytes": 1816
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/service/AuthService.java",
+      "sha256": "306dcea80cd552d86179a6d608b082b404390d9652fd2f6123268635bf48bae7",
+      "bytes": 5117
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/service/AuthenticatedUserService.java",
+      "sha256": "5dd9196b9c96d38be8cedd00bfbff17fc1a9c5f60430206e9a331ef8e99aa70c",
+      "bytes": 1426
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/service/DashboardService.java",
+      "sha256": "9fbbdd31198ec7e228fb5d0d6f1dec014c9d2dc052d6ddcd0d1f188eca74eb85",
+      "bytes": 1693
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/service/EmailNormalizer.java",
+      "sha256": "6a518e7a5f90c4d9aca4344997c3d92f4ccafe359560258c387325d28312631f",
+      "bytes": 288
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/service/EmailService.java",
+      "sha256": "9a156428175e471e97566d97ba44ebd460da4b054a94b16e8d03dd2b92f2b133",
+      "bytes": 142
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/service/GastoService.java",
+      "sha256": "f57658b0237eea94910d514258db28e989473df4ed61054e24c26bd8a9f0d49f",
+      "bytes": 2643
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/service/InvestimentoService.java",
+      "sha256": "d3362961b26d3c48ce3ede0f6f62a561ecad933d275b375a618582eaddcf8137",
+      "bytes": 3046
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/service/PasswordPolicyValidator.java",
+      "sha256": "52ceebead26fb073dc9d1837f6f46f7aca7392e708e2ba2e66f2f78d94532a19",
+      "bytes": 1383
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/service/PasswordResetService.java",
+      "sha256": "4667a36a24f4d32d868e8483b5fabd81f02ce828c0fc395d8767a57dee267386",
+      "bytes": 6492
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/service/ProfileService.java",
+      "sha256": "ffa9643a167cceac827235e7051076c48c4a7995cc58023bb757cc1ff363f3cf",
+      "bytes": 1819
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/service/RecebimentoService.java",
+      "sha256": "251cde74f6c57d3e94d1e2870b07f8e6cd7276b11e8722b11ff83a1199bcea81",
+      "bytes": 2893
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/service/SmtpEmailService.java",
+      "sha256": "b04ffc2bb76624b96a7e34b9c6ff46e464bf4bed324a09541f829de964d926b9",
+      "bytes": 2102
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/service/UsuarioService.java",
+      "sha256": "7fd55e6d789a3d45c72b92e9faf43337abd21c1dac4436db8872e313cb8d2fc5",
+      "bytes": 2970
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/resources/application-dev.properties",
+      "sha256": "beb1a3e9b334342a52ccb78144e21382e697c22bb0573f0d9f9fda0195816309",
+      "bytes": 409
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/resources/application-prod.properties",
+      "sha256": "fd19b4e66a5c96e9b22ff032e02aa84a035de156a55d9516f7dcc7b2451e1f2f",
+      "bytes": 1642
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/resources/application.properties",
+      "sha256": "6184b8b382113d6432c6737068694b1c97f17960dd1b1cfa114f08b61dcf5eea",
+      "bytes": 1507
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/resources/db/migration/V001__initial_schema.sql",
+      "sha256": "7c17f0a02b332b380c527b8f71041b8cae27db967ce45f83a645d6bc60dd9ad7",
+      "bytes": 1670
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/resources/db/migration/V002__add_user_scope_indexes.sql",
+      "sha256": "c78e30af4fd932f4fd7d33560e160771047d17f475c9f9ac6bfb598cc4e3d681",
+      "bytes": 221
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/resources/db/migration/V003__add_user_role.sql",
+      "sha256": "3c27de8f1814e694ac7771ac7acdab352c3bb4026f623901cde125b7c154b69f",
+      "bytes": 192
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/resources/db/migration/V004__add_password_reset_tokens.sql",
+      "sha256": "0538561f33a72404b2b98670e09782e4fb742d68dfb16ff394f1a9f7ce626b43",
+      "bytes": 603
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/resources/db/migration/V005__add_login_security_fields.sql",
+      "sha256": "a785c2bb937c889c6f5ea96e18e643357386158b6e6356bf9c1fe43a215ab29f",
+      "bytes": 152
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/main/resources/db/migration/V006__add_token_version.sql",
+      "sha256": "7676a15f8d6c05c6a15bc3cb62230ccdf72305730a5410c6f143862d88df8ba6",
+      "bytes": 86
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/AdminPasswordPolicyIntegrationTests.java",
+      "sha256": "7d0bc50b9b66820954b61e1c437c9232acfb2b4210c3d35e494ee486f5eae201",
+      "bytes": 3785
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/AuthenticatedUserDetailsTests.java",
+      "sha256": "3740d65cd22f01994b54756827b805ade2ad373a3fc326614af9da6fa3f66d9a",
+      "bytes": 1583
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/AuthenticationIntegrationTests.java",
+      "sha256": "af8cd5c9859666e210e3b67d4b19ddf7bbc7c507edb360034bb2ea9305cdd813",
+      "bytes": 7266
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/AuthenticationLockoutAndRateLimitTests.java",
+      "sha256": "c67aaac2d1ac29aefa2a0881b4391b3865affd2009fe173c8d288a3a8a55a851",
+      "bytes": 12332
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/AuthenticationQueryTests.java",
+      "sha256": "a792c532084b74b6a38ff7ca287d18fdf24bf8a9b833e5e41ff3bd49ff86cb02",
+      "bytes": 5590
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/AuthenticationTimingMitigationTests.java",
+      "sha256": "93be0d2c4a1c5d5fff683b41c1eb5a6f0af3c814f2a8a862b7e51c00a7cc5f3c",
+      "bytes": 9083
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/BoundedBcryptEncoderTests.java",
+      "sha256": "17f3def62dc841b5f257f10fcf1a045767b01c719a7c2551f8c11816bcd1f9b8",
+      "bytes": 1729
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/BoundedHttpExchangeTests.java",
+      "sha256": "cb30bab5682f0a5c33f1036682c049703818562d8d33ee06fba48b1eb1b4179d",
+      "bytes": 3929
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/ClientIpResolverTests.java",
+      "sha256": "b4e8e2252e170c7efe63e795d06756838b22d53e47a42a25f3ef11b28cc1a85c",
+      "bytes": 1989
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/ConnectionPoolStartupTests.java",
+      "sha256": "6bca30413193970b4971168d1c5bfd77d6b809f5a275e3acb4162da434cb01c9",
+      "bytes": 7585
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/DependencyMigrationContractTests.java",
+      "sha256": "41a89f8a802ed435fafed97c76445d76593dfcfc3f106790e9ee73b7a659158e",
+      "bytes": 694
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/DependencySecurityContractTests.java",
+      "sha256": "47f9fc45e596b5c0ed6b5d40d48750e311054004d5cdecd23b581dc301570412",
+      "bytes": 7094
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/DependencyTransportContractTests.java",
+      "sha256": "e253af51da42a2de9cb1feec24919718de8b89ce8fae160cf4736d917064bc7a",
+      "bytes": 5623
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/EmrFinancasApplicationTests.java",
+      "sha256": "8f58697860ec6612d0bb43ce5b8f3a1f661e7c45695e2ec844fe333443c24171",
+      "bytes": 306
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/HealthControllerTests.java",
+      "sha256": "dde2bf5e2831be0341eb74ad7a3c1c9d7903e54bd0c0467e524c5e31c3d06c03",
+      "bytes": 517
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/JwtRevocationIntegrationTests.java",
+      "sha256": "c33420738b819f62da2708aa96d20dc022c7a3870d1c87bfb8fbb2e99ae35909",
+      "bytes": 6375
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/JwtServiceTests.java",
+      "sha256": "3e3cc88a1939be2c9fe397582dc20e59976acbd2ae12ec65b417579f8c5b6dd8",
+      "bytes": 5498
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/LegacyBcryptCompatibilityTests.java",
+      "sha256": "d1682fb25283139a5c44a221c82526e680f1046a843535b58e11cbdfb2ee81bb",
+      "bytes": 2303
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/MultiUserDataIsolationIntegrationTests.java",
+      "sha256": "f7e56d818cc53282abd384012386fa0dc500dd4993181c72b8a5850410580d34",
+      "bytes": 14517
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/PasswordBoundaryHttpIntegrationTests.java",
+      "sha256": "a5fb431b4c0ec58194257ed80e995a0d212097df147a4d3df649c77e4dfa08c6",
+      "bytes": 3742
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/PasswordBoundaryLiveHttpTests.java",
+      "sha256": "96f850f4e090a632ed6d2c4ab306c890efcb5beefdad36e74639452ee34696f4",
+      "bytes": 8114
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/PasswordBoundaryProtectionIntegrationTests.java",
+      "sha256": "9a912f8014a46dcdc269a693677091c3bdbff6ab1db1b12560cd38c1d9d99556",
+      "bytes": 5374
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/PasswordBytePolicyTests.java",
+      "sha256": "71155c6b972f1928ebb42623d97c41d7189a41c1a783c89612db14e428db4a2c",
+      "bytes": 2495
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/PasswordResetIntegrationTests.java",
+      "sha256": "a5aeea77618947f86f401ee9db2ed8be8497fbd45334522a57b0287c5295454c",
+      "bytes": 13003
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/PostgresDatabaseLiveIntegrationTests.java",
+      "sha256": "d885025220725718de81b6aff4d55c116448e13d94e3f7eadb71a7a2ec48833e",
+      "bytes": 8456
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/ProductionConfigurationTests.java",
+      "sha256": "97db13204d134b4c4c34277842ebfea13020c8fbf3863dcff6a40369e15ff688",
+      "bytes": 3994
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/ProfileIntegrationTests.java",
+      "sha256": "bde890de9337ee4ae46240f91e7e6cc659a887e6224df4947555919a8a4899a7",
+      "bytes": 5764
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/RegistrationIntegrationTests.java",
+      "sha256": "c676908e4d70be56af9dc7e7afb5578607b720669f06e42b6cb456caf46a8bb3",
+      "bytes": 8836
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/SecurityHardeningTests.java",
+      "sha256": "63339cd4199bc94636571be151b2caff2bacdb72c6225754b4a2ed0491c2022c",
+      "bytes": 1342
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/StartupMetricsReporterTests.java",
+      "sha256": "f47850087ab89412e64c63d49af7eac570ff998f26c4bd1307abf3ed52b6cb47",
+      "bytes": 2670
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/config/SeedPasswordPolicyTests.java",
+      "sha256": "3d8a83c63e131a1677d2d285eef91a4f18be7938e711c3e7cecbb13abe4c0c27",
+      "bytes": 1662
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/support/BoundedHttpExchange.java",
+      "sha256": "4bdde47916e177b16d17f127351e62fe0b55f1c00b58decdf73a150b48f451c5",
+      "bytes": 3676
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/support/LegacyBcryptFixtures.java",
+      "sha256": "4c12c7dd0be0c86837d951211fafa03778a98a0f7498dc17fc2b5c44fcdf8687",
+      "bytes": 954
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/support/PasswordHttpSupport.java",
+      "sha256": "3aac0ea252a33f2e4b50478c600e822a3dc486fb3116114aa6e9b1f804dbdc6c",
+      "bytes": 4800
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/resources/application-postgres-it.properties",
+      "sha256": "f2a7b9250b8604eabc7fd34e2b629dc5cf38f0be309f9d97c20bf7dc7918f6a7",
+      "bytes": 764
+    },
+    {
+      "path": "BackEnd/Back End/backend/src/test/resources/application-test.properties",
+      "sha256": "a8dc3373b22097744952e827f8e653ed57975b1ea03159086947f7114c4ac93b",
+      "bytes": 489
+    },
+    {
+      "path": "Dockerfile",
+      "sha256": "512807fd47c5df45019f0b604b806e65319005556c09ac32f0b5dd7f82e95c15",
+      "bytes": 486
+    },
+    {
+      "path": "FrontEnd/App.tsx",
+      "sha256": "4417fe3ea1f6645ec63492e9cef7ca5f08bfd01e0f0dbdb3e2413e0371094936",
+      "bytes": 3902
+    },
+    {
+      "path": "FrontEnd/assets/emr-logo.png",
+      "sha256": "42a0db243a4ec866a043560a66d8d3a547ff281639a6a9393463e5021d666e2a",
+      "bytes": 1273732
+    },
+    {
+      "path": "FrontEnd/assets/hero.png",
+      "sha256": "881ffbcaafc212e49addad08846a5b82761355fa20624253af3477ba33262c5c",
+      "bytes": 13057
+    },
+    {
+      "path": "FrontEnd/components/Brand.tsx",
+      "sha256": "2c7096e8b56ea79878d1b236a2673491d916c97d9d9b3ee005e1417a1492481f",
+      "bytes": 210
+    },
+    {
+      "path": "FrontEnd/components/CRUDTable.tsx",
+      "sha256": "3c83dff988e76a97b7a3af96f9a71d8ff78a5b9af580209c448f3750e17e53f4",
+      "bytes": 5077
+    },
+    {
+      "path": "FrontEnd/components/DashboardChart.tsx",
+      "sha256": "40ea02f370a16fb11b88108a38ad105b187ad1f4870c280c45c26ca83d0f82c3",
+      "bytes": 1664
+    },
+    {
+      "path": "FrontEnd/components/FinancialStatus.tsx",
+      "sha256": "071d742ac913447f2e398986e59b462865078c624c06beec73c96647d8b2dd72",
+      "bytes": 485
+    },
+    {
+      "path": "FrontEnd/components/LegalPageLayout.tsx",
+      "sha256": "691e6363f47f35195ba91b75ce51218e75e8a5e3a3e1c21e93d76fce81f2ce78",
+      "bytes": 1421
+    },
+    {
+      "path": "FrontEnd/components/Loading.tsx",
+      "sha256": "8b13db8bad9f6abb7291f1d90051449b91521e3be50d9f81e81b69572fd190f5",
+      "bytes": 377
+    },
+    {
+      "path": "FrontEnd/components/MetricCard.tsx",
+      "sha256": "c50cb2e3a7bd4d516a12b4469a4fe1ae2d11b4226af3b3c3b0ac0db7a7eafcff",
+      "bytes": 589
+    },
+    {
+      "path": "FrontEnd/components/Modal.tsx",
+      "sha256": "01cd6d66f1fac7d77380c99ef35d2e7bc710ed417642ca9b2febc541c74cee21",
+      "bytes": 6539
+    },
+    {
+      "path": "FrontEnd/components/Navbar.tsx",
+      "sha256": "0e01aef1b1ecb8a065d33c059f3075b6910709b918510306d2407ce871a9683b",
+      "bytes": 1075
+    },
+    {
+      "path": "FrontEnd/components/ProtectedRoute.tsx",
+      "sha256": "8e2ae556d4737b523ab9ecd77f4893706061ef9ee561b04cde9a6c7be30f96d9",
+      "bytes": 323
+    },
+    {
+      "path": "FrontEnd/components/PublicLegal.tsx",
+      "sha256": "32c264db69f31038e0f5fea071cf801b84b33f220addbad5541fa65c9fe68373",
+      "bytes": 907
+    },
+    {
+      "path": "FrontEnd/components/Sidebar.module.css",
+      "sha256": "ef4dc3f8d03de53ec2389eb933a8b7dc51a5c4fd0ab5e0b24856b6cfd6404383",
+      "bytes": 2154
+    },
+    {
+      "path": "FrontEnd/components/Sidebar.tsx",
+      "sha256": "b7493bc7966258a0cbc94882add36b31ef8738489e846f9a1dfc362616df786e",
+      "bytes": 3730
+    },
+    {
+      "path": "FrontEnd/components/ToastContainer.tsx",
+      "sha256": "7fee918a699fb8e5de882d920337677dd72e6c67a98dfa914d4481d744196364",
+      "bytes": 807
+    },
+    {
+      "path": "FrontEnd/components/useModal.ts",
+      "sha256": "fc80e5f40df23fc2789c966f1ae2d95bea4709eb6efd2dbaef5c670b4bd83f23",
+      "bytes": 225
+    },
+    {
+      "path": "FrontEnd/contexts/AuthContext.tsx",
+      "sha256": "ffcd6725dfdb34cc72b538d16c7da8a2b7c4c67b5c8dddf8b1ff327545d2d41f",
+      "bytes": 1943
+    },
+    {
+      "path": "FrontEnd/contexts/FinancasContext.tsx",
+      "sha256": "a5f59143d1c45518b62532d12ff26ac96ff90393cab59531a62206e864713b7f",
+      "bytes": 2412
+    },
+    {
+      "path": "FrontEnd/contexts/ToastContext.tsx",
+      "sha256": "33b0cf77446e24a7dd08b44932258661f94cad08c0d80642fa8348149cb4f17e",
+      "bytes": 1227
+    },
+    {
+      "path": "FrontEnd/hooks/useDebounce.ts",
+      "sha256": "0021b76de8e5f2087b114183cc874c325bb3e7d01acdccf88f4fddc6bc387445",
+      "bytes": 350
+    },
+    {
+      "path": "FrontEnd/index.css",
+      "sha256": "02bef29590b793be99d4b159b7295fca1afd5a858e0d29d8fafd2dbcfcea5789",
+      "bytes": 2488
+    },
+    {
+      "path": "FrontEnd/main.tsx",
+      "sha256": "c89383baab814e1388ba5d9aa211b237ba9a35bf0a07ef3e73364a7fff84361b",
+      "bytes": 226
+    },
+    {
+      "path": "FrontEnd/pages/DashboardPage.tsx",
+      "sha256": "660f10d6ae16e7d1c72b716dbb469471664268271d85434eabc5dbecea19e894",
+      "bytes": 9669
+    },
+    {
+      "path": "FrontEnd/pages/ForgotPasswordPage.tsx",
+      "sha256": "1cc7210d251161a603314ead39d760332a7c49ad4174e760d814214d1b83b128",
+      "bytes": 3800
+    },
+    {
+      "path": "FrontEnd/pages/GastosPage.tsx",
+      "sha256": "387db99b96412196e9a5dfe8664b95eb085f7519f1c67bca16011d727ca964cd",
+      "bytes": 4251
+    },
+    {
+      "path": "FrontEnd/pages/InvestimentosPage.tsx",
+      "sha256": "453b9b40179978770b9270c476868fe196f213ccb1f5d1210ba73eedae3a2d39",
+      "bytes": 4397
+    },
+    {
+      "path": "FrontEnd/pages/LoginPage.tsx",
+      "sha256": "f19bfa41af2a962bc0050e6dbb5ee5889a55358a38166a472ab34d8cadb2bd1e",
+      "bytes": 3850
+    },
+    {
+      "path": "FrontEnd/pages/NotFoundPage.tsx",
+      "sha256": "5316fe8964b1734819956cc7b0f359f8bd46540bdcb9c0d40df5b60a85c6205c",
+      "bytes": 759
+    },
+    {
+      "path": "FrontEnd/pages/PerfilPage.tsx",
+      "sha256": "84367333387a5f88adaedcb60b1cab5d5796cdd1db66accf6c7a700cbe5c337f",
+      "bytes": 6953
+    },
+    {
+      "path": "FrontEnd/pages/PrivacyPolicyPage.tsx",
+      "sha256": "5865d0f96019358cd55d13be0df50e6a6ac4c933973670c3e2d6c5a668c2be12",
+      "bytes": 8868
+    },
+    {
+      "path": "FrontEnd/pages/RecebimentosPage.tsx",
+      "sha256": "c9a57782f1d89b26746516b768d030c991bc65f18d24ff4e4c73518b01920ea3",
+      "bytes": 4305
+    },
+    {
+      "path": "FrontEnd/pages/RegisterPage.tsx",
+      "sha256": "a0e08729540df3e1b2112078a3a53a0892106d0d84043434baf7abb5e5804a36",
+      "bytes": 8057
+    },
+    {
+      "path": "FrontEnd/pages/ResetPasswordPage.tsx",
+      "sha256": "73bcb2baff1c3e933960e7d1cb962a12e726c6d4d8d7762f1e8ee89ebf79763c",
+      "bytes": 7192
+    },
+    {
+      "path": "FrontEnd/pages/TermsOfUsePage.tsx",
+      "sha256": "4aa227dc44bff214ff5425a72d5582f99f289d3e77f64a57673ea3fe8826da7e",
+      "bytes": 6417
+    },
+    {
+      "path": "FrontEnd/services/_apiClient.ts",
+      "sha256": "5991887f0fdcde10e9272fb016d288d801f30363fdeabfc72eb5a5ef87cf1f92",
+      "bytes": 724
+    },
+    {
+      "path": "FrontEnd/services/api.ts",
+      "sha256": "339aad25571beede694b34a5eca96e1d2db747fdfe1e65acca7861c6027fac62",
+      "bytes": 2040
+    },
+    {
+      "path": "FrontEnd/services/mockApi.ts",
+      "sha256": "e2bfa6f363cbdb1a0baf5d2611964008a1dbb443a6344387ca92460fa627bec9",
+      "bytes": 3698
+    },
+    {
+      "path": "FrontEnd/services/realApi.ts",
+      "sha256": "e1ab20e5a4fa847c2919542102268c560ece0664c69c53d2eefd1ab35859ccbb",
+      "bytes": 5571
+    },
+    {
+      "path": "FrontEnd/styles/dashboard.css",
+      "sha256": "f92d246519457acc3df2ffedc889fa67185f9e8a4125f41f51c7d74963862cef",
+      "bytes": 4260
+    },
+    {
+      "path": "FrontEnd/styles/emr.css",
+      "sha256": "f2e96adb435ae6a3218b9df23e2637315699c225f83cbe971296a26f8391dee3",
+      "bytes": 8591
+    },
+    {
+      "path": "FrontEnd/styles/forms.css",
+      "sha256": "5793f3cd08ccbf70d8836177391b72d688eb1a8f4589eb885fa3287f1e858c86",
+      "bytes": 3966
+    },
+    {
+      "path": "FrontEnd/styles/global.css",
+      "sha256": "b17a15885b6104019f184cb5383e56a04fc15819708dd3da496dfa5f3c126ba8",
+      "bytes": 4889
+    },
+    {
+      "path": "FrontEnd/styles/responsive.css",
+      "sha256": "8acb58b3aafdded4f34b041ce2d5a45cb2720ce2a935075127e1a64c1cefc0de",
+      "bytes": 1058
+    },
+    {
+      "path": "FrontEnd/styles/sidebar.css",
+      "sha256": "0e70fe395e81e08678e1622b6dba6af4b5ea055af9769739a7b36f69e8bf3a69",
+      "bytes": 1823
+    },
+    {
+      "path": "FrontEnd/styles/tables.css",
+      "sha256": "4061608bf512a57fffc50c3cfd7ffd24b7f62e3ddaf7d102b3bb43fce74ccb72",
+      "bytes": 1414
+    },
+    {
+      "path": "FrontEnd/styles/variables.css",
+      "sha256": "a309c2a64439d664e38f215e3b5aab4dc4230ae96586440642c0b80dba370dbe",
+      "bytes": 1457
+    },
+    {
+      "path": "FrontEnd/types/index.ts",
+      "sha256": "0677877a7d62119ad5bf7bbd308b76c2fbcf4536089aeac66fd3cb215e124518",
+      "bytes": 1005
+    },
+    {
+      "path": "FrontEnd/utils/index.ts",
+      "sha256": "6ee8cff4ec27252ddf37da3c888c00ae58e5315619e5270475ec7186459f0f63",
+      "bytes": 895
+    },
+    {
+      "path": "FrontEnd/utils/password.ts",
+      "sha256": "8414cbac88b163c87d4dd467a931730ff949959f23e9dc0ed596f7ec04a666f2",
+      "bytes": 409
+    },
+    {
+      "path": "FrontEnd/vite-env.d.ts",
+      "sha256": "752d674f551d53cdd0809e00e908e74dfff156e161da8216998cf16b19e18e13",
+      "bytes": 202
+    },
+    {
+      "path": "index.html",
+      "sha256": "abc1532eb830fad8c85b60bd7b883929c7de5dfb47495b5076e00a559455b121",
+      "bytes": 373
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "3ca8f4d652c243cf398c660e2ebb4cf4f72aed37dd82861cb51b6d94c0b10b94",
+      "bytes": 77810
+    },
+    {
+      "path": "package.json",
+      "sha256": "1841563381a65de39adc9fc96fd1694925fb0748040354724f67f905d3e1e0a9",
+      "bytes": 695
+    },
+    {
+      "path": "public/favicon.svg",
+      "sha256": "61bc9a161de58248288e6905425d7180f0624c2865007b97d763fdac12043a66",
+      "bytes": 9522
+    },
+    {
+      "path": "public/fonts/bootstrap-icons.woff",
+      "sha256": "f55513b7b591cb84a3b87ff0e34ea24d4831d6fedc22e54b911ca64b5b544a15",
+      "bytes": 180288
+    },
+    {
+      "path": "public/fonts/bootstrap-icons.woff2",
+      "sha256": "6c75710364a1ca5604267716f6d28997b26319fdb078cf11e0b42ab66ff2ea61",
+      "bytes": 134044
+    },
+    {
+      "path": "tsconfig.app.json",
+      "sha256": "20282f9dc3203fc4d6db59505dcea37dc1a482c230cea8fce5c584a7557fbe85",
+      "bytes": 512
+    },
+    {
+      "path": "tsconfig.json",
+      "sha256": "770b4140bbb581e2dfd9ea9946ffc9c75a1d86ba7d2db5f77c83e37cbdf9d808",
+      "bytes": 119
+    },
+    {
+      "path": "tsconfig.node.json",
+      "sha256": "f1049d3e3ab3cd5c7ee13d63025529e939639c8e2db1a272e967faa89499905f",
+      "bytes": 211
+    },
+    {
+      "path": "vercel.json",
+      "sha256": "29afc6166ec968586a13e65e526754525abfbac1ef73ad5c6b9c75e2c16697f7",
+      "bytes": 150
+    },
+    {
+      "path": "vite.config.ts",
+      "sha256": "2f4d23e3ed5d9a710d52159ea9a0852d2aa83b1907c93c8ef9476240a3fc1622",
+      "bytes": 194
+    }
+  ]
+}
