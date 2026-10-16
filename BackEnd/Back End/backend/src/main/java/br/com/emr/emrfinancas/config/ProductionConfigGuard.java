@@ -3,6 +3,7 @@ package br.com.emr.emrfinancas.config;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import br.com.emr.emrfinancas.database.DatabaseTarget;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,8 +21,22 @@ public class ProductionConfigGuard {
 
     public static void validate(Environment env) {
         require(!Arrays.asList(env.getActiveProfiles()).contains("dev")
-                && !Arrays.asList(env.getActiveProfiles()).contains("test"), "profiles");
+                && !Arrays.asList(env.getActiveProfiles()).contains("test")
+                && !Arrays.asList(env.getActiveProfiles()).contains("local-pg")
+                && !Arrays.asList(env.getActiveProfiles()).contains("postgres-it"), "profiles");
         String url = required(env, "spring.datasource.url");
+        DatabaseTarget.runtimeNeon(env.getProperty("DB_TARGET_ID", "task5"), url,
+                required(env, "DB_EXPECTED_HOST"), required(env, "spring.datasource.username"));
+        for (String key : new String[]{"spring.flyway.url", "spring.flyway.user", "spring.flyway.password",
+                "spring.datasource.hikari.jdbc-url", "spring.datasource.hikari.username", "spring.datasource.hikari.password",
+                "spring.datasource.hikari.data-source-class-name", "spring.datasource.hikari.data-source-j-n-d-i",
+                "spring.datasource.hikari.connection-init-sql", "spring.datasource.hikari.data-source-properties.user",
+                "spring.datasource.hikari.data-source-properties.password", "spring.datasource.hikari.data-source-properties.options"}) {
+            require(env.getProperty(key) == null, key);
+        }
+        for (String key : new String[]{"MIGRATION_DB_URL", "MIGRATION_DB_USERNAME", "MIGRATION_DB_PASSWORD"}) {
+            require(env.getProperty(key) == null, key);
+        }
         // JDBC query parameters override driver properties; keep TLS and credentials separate.
         require(url.startsWith("jdbc:postgresql://") && !url.contains("?") && !url.contains("#"), "DB_URL");
         URI database;
@@ -35,8 +50,9 @@ public class ProductionConfigGuard {
         equal(env, "spring.datasource.driver-class-name", "org.postgresql.Driver");
         equal(env, "spring.datasource.hikari.data-source-properties.sslmode", "verify-full");
         equal(env, "spring.datasource.hikari.data-source-properties.sslfactory", "org.postgresql.ssl.DefaultJavaSSLFactory");
+        equal(env, "spring.datasource.hikari.data-source-properties.currentSchema", "public");
         equal(env, "spring.jpa.hibernate.ddl-auto", "validate");
-        equal(env, "spring.flyway.enabled", "true");
+        equal(env, "spring.flyway.enabled", "false");
         equal(env, "spring.flyway.baseline-on-migrate", "false");
         equal(env, "spring.flyway.clean-disabled", "true");
         equal(env, "app.dev.seed-user.enabled", "false");

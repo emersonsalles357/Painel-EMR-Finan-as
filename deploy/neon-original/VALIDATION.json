@@ -1,0 +1,193 @@
+{
+  "date": "2026-10-16",
+  "build": {
+    "exitCode": 0,
+    "seconds": 10.71,
+    "goals": [
+      "-Dtest=ProductionConfigurationTests,DatabaseTargetTests,DatabaseRuntimeVerifierTests",
+      "package"
+    ],
+    "totals": {
+      "tests": 62,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "suites": [
+      {
+        "name": "br.com.emr.emrfinancas.config.DatabaseRuntimeVerifierTests",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "br.com.emr.emrfinancas.DatabaseTargetTests",
+        "tests": 16,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "br.com.emr.emrfinancas.ProductionConfigurationTests",
+        "tests": 37,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    ]
+  },
+  "jarSha256": "bbf047ca3b21e09161874a9ca85fd95c5d8045a24db774e188a5912248027707",
+  "launcherSyntax": "PASS",
+  "packagedPreflightRejectionChecks": [
+    {
+      "name": "missing-config",
+      "exitCode": 1,
+      "result": "PASS: rejected before connection"
+    },
+    {
+      "name": "owner-rejected",
+      "exitCode": 1,
+      "result": "PASS: rejected before connection"
+    }
+  ],
+  "migrations": [
+    {
+      "file": "V001__initial_schema.sql",
+      "unchangedFromHead": true,
+      "jarMatchesSource": true
+    },
+    {
+      "file": "V002__add_user_scope_indexes.sql",
+      "unchangedFromHead": true,
+      "jarMatchesSource": true
+    },
+    {
+      "file": "V003__add_user_role.sql",
+      "unchangedFromHead": true,
+      "jarMatchesSource": true
+    },
+    {
+      "file": "V004__add_password_reset_tokens.sql",
+      "unchangedFromHead": true,
+      "jarMatchesSource": true
+    },
+    {
+      "file": "V005__add_login_security_fields.sql",
+      "unchangedFromHead": true,
+      "jarMatchesSource": true
+    },
+    {
+      "file": "V006__add_token_version.sql",
+      "unchangedFromHead": true,
+      "jarMatchesSource": true
+    }
+  ],
+  "sqlValidation": "Static review only; not executed against PostgreSQL",
+  "remoteSqlExecutedThisPreparation": true,
+  "jdbcRemote": "NOT_TESTED",
+  "renderConfiguration": "UNCHANGED",
+  "dockerCommands": false,
+  "commitPushMergeDeploy": false,
+  "remoteSqlMode": "SELECT metadata only; BEGIN READ ONLY / ROLLBACK via authenticated SQL Editor",
+  "remoteWrites": false,
+  "remoteInspection": {
+    "currentDatabase": "neondb",
+    "currentUser": "neondb_owner",
+    "transactionReadOnly": true,
+    "defaultAcls": [
+      {
+        "creator": "cloud_admin",
+        "schema": "public",
+        "type": "r",
+        "grantee": "neon_superuser",
+        "privileges": "a*r*w*d*D*x*t*"
+      },
+      {
+        "creator": "cloud_admin",
+        "schema": "public",
+        "type": "S",
+        "grantee": "neon_superuser",
+        "privileges": "r*w*U*"
+      }
+    ],
+    "observedConnections": [
+      {
+        "user": "neondb_owner",
+        "application": "neon-internal-sql-editor",
+        "state": "active",
+        "count": 1
+      }
+    ],
+    "otherDatabase": {
+      "name": "postgres",
+      "owner": "cloud_admin",
+      "acl": null
+    }
+  },
+  "preparedFiles": [
+    {
+      "file": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/database/DatabaseTarget.java",
+      "sha256": "98084126b09fad9ae6da8e69c30f1c1233afa227bd0a7d4858200d50fa9c8883"
+    },
+    {
+      "file": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/database/DatabaseRuntimePreflight.java",
+      "sha256": "c20ba5c44958d0bf4d8b9f2c83e38bbfdb89c96b9d74d313f5fdfd95c705acc1"
+    },
+    {
+      "file": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/config/ProductionConfigGuard.java",
+      "sha256": "e01f8bb78dd7f7457e1dbdcd69e66be549090489982e043f69a72e45dfc4da0f"
+    },
+    {
+      "file": "BackEnd/Back End/backend/src/main/java/br/com/emr/emrfinancas/config/DatabaseRuntimeVerifier.java",
+      "sha256": "ea7765942a66fdf66191f41671bdce19229df3f132f72e8d9dd91d61d60c57cc"
+    },
+    {
+      "file": "BackEnd/Back End/backend/src/main/resources/application-prod.properties",
+      "sha256": "48a3e21f92a5aad874a428c00adda95bd1dc43ca0c0072c6683ac6dbcd62c209"
+    },
+    {
+      "file": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/ProductionConfigurationTests.java",
+      "sha256": "ca0223fc912a45d9605e874fad9a0dc540e42f54023950b39bb54cbb640efc2b"
+    },
+    {
+      "file": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/DatabaseTargetTests.java",
+      "sha256": "db93f37ceb82c29469e07e1733877ff8946814171571dfde8ed98b6bdb7899bf"
+    },
+    {
+      "file": "BackEnd/Back End/backend/src/test/java/br/com/emr/emrfinancas/config/DatabaseRuntimeVerifierTests.java",
+      "sha256": "85b78e6b547ad63f8d64d4df6d3e2d60b85cca502d4f39ac50899c2295de1075"
+    },
+    {
+      "file": "tools/Invoke-OriginalNeonPreflight.ps1",
+      "sha256": "c5f1ad0a18357d1e3161ccb9976ee2ab864305042762652c652207a9a99eb620"
+    },
+    {
+      "file": "tools/Invoke-OriginalNeonProvision.ps1",
+      "sha256": "09c8950acb1b2038934db62fdbd18b1532d5babad6427b33239ec24bc6a703df"
+    },
+    {
+      "file": "deploy/neon-original/00-inspect-readonly.sql",
+      "sha256": "08f0d802c4547d2ecc43b3cb4010dbf0a69e7e71bd5e20ac19c5191f3f60f7de"
+    },
+    {
+      "file": "deploy/neon-original/10-provision-app.sql",
+      "sha256": "73abde6c2b519991870ac794e4effa246265d583969ab5649dadfadf347925cf"
+    },
+    {
+      "file": "deploy/neon-original/20-revoke-public-temp.sql",
+      "sha256": "bc8b71a01a37135426303026bf8071d29b3bb3ebfe1077649e86a2dae928e081"
+    },
+    {
+      "file": "deploy/neon-original/90-rollback-provision.sql",
+      "sha256": "11397f41d20a1c1dec26265af039176dfa0b7cd49f01c37d67f20c0562192980"
+    },
+    {
+      "file": "deploy/neon-original/README.md",
+      "sha256": "0ad70028ce1e3b6a49001bfda49bf24d69d4319f6a6aa63df970a05c1d0780ea"
+    }
+  ],
+  "head": "6be16f0560127284cd1f4de737dc86955c7b1ab2",
+  "staticSqlChecks": "PASS; not parsed or executed by PostgreSQL",
+  "preparedFilesFormatting": "PASS"
+}

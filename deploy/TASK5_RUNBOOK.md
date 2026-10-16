@@ -1,6 +1,6 @@
 # Task 5 — operação experimental pendente de autorização
 
-Este documento é preparatório. Nenhum recurso, commit, push ou deploy foi criado nesta Task 5.
+Documento histórico preparatório. Para migração/runtime e validação local, prevalece [TASK5_LOCAL_INTEGRATION.md](TASK5_LOCAL_INTEGRATION.md). O clone está no commit de referência 6be16f0; este roteiro não comprova o estado atual dos provedores.
 
 ## Revisão e origem
 
@@ -36,18 +36,20 @@ Antes de criar ou alterar recursos, apresentar IDs/nomes/região/destino, plano 
 ## Banco Neon e TLS
 
 - PostgreSQL 16 preferido; confirmar versão real no plano/conta. Banco exclusivo, vazio e sintético. Nunca importar backups/dados do histórico.
-- Usar endpoint **direto** (sem `-pooler`), pois a candidata usa a mesma DataSource para Flyway/JPA, e Hikari limita as conexões a três. Separar endpoints/roles no futuro exigiria nova alteração e validação.
+- Usar endpoint **direto** (sem `-pooler`). Migração e runtime usam processos e roles separados; Hikari limita o runtime a três conexões por padrão.
 - `DB_URL` deve ser `jdbc:postgresql://<host>.neon.tech:5432/<database>`, sem `?`, fragmento, usuário ou senha embutidos.
 - `DB_SSL_MODE=verify-full`; `DefaultJavaSSLFactory` usa a confiança do Java e o driver valida o hostname. Não baixar a segurança para contornar falhas.
 - Confirmar handshake real com a imagem Java final e a conta aprovada: conectividade, cadeia/hostname, `pg_stat_ssl.ssl=true` e versão do servidor. Compatibilidade documental/local não prova conexão remota.
-- Papel de aplicação dedicado: LOGIN, sem SUPERUSER, CREATEDB, CREATEROLE, REPLICATION ou BYPASSRLS; CONNECT somente ao banco de teste, USAGE/CREATE no schema `public` para as seis migrations e propriedade dos objetos que criar. Não usar a role administrativa Neon como `DB_USERNAME`. Mudanças de grants também precisam de autorização. A candidata executa Flyway na própria role da aplicação: documentar esse privilégio DDL restrito ao schema experimental.
+- Papel de aplicação dedicado: `emr_task5_app`, LOGIN sem atributos administrativos, CONNECT/USAGE/DML/sequences, sem CREATE, ownership ou acesso ao histórico Flyway. A role migradora dedicada possui os objetos e só é usada no processo de migração. SQL revisável em `task5-runtime-privileges.sql`; qualquer execução Neon exige autorização separada.
 - Inspeção JDBC de leitura já disponível em `tools/NeonPreflight.java`; carregar variáveis por mecanismo seguro de processo, não por argumentos com credenciais. Executar no banco identificado, nunca em produção. Saída contém metadados do banco e deve permanecer local/sanitizada.
-- Após autorização explícita de migrations, a primeira inicialização em `prod` aplica `V001`–`V006`. Verificar seis linhas de sucesso em `flyway_schema_history`, checksums, índices e persistência dos registros sintéticos.
+- Após autorização explícita, o migrador standalone aplica `V001`–`V006` e valida checksums/histórico. Só então configurar ACLs aprovadas e iniciar `prod`, que mantém Flyway desabilitado.
 - `baseline-on-migrate=false`, `clean-disabled=true`, `ddl-auto=validate`. Não criar limpeza automática ou executar testes de integração locais contra Neon.
 
 ## Serviço Render
 
-Configuração a aplicar somente depois do gate:
+Configuração e estratégia de deploy controlado na Render:
+- **Estratégia de Deploy sem contaminação da `main`:** A Render acompanha a branch `main`. Para validar e testar a Task 5 experimentalmente antes de qualquer merge na `main`, o deploy será realizado exclusivamente via **Manual Deploy → Deploy a specific commit**, informando o SHA publicado na branch isolada `task5/render-free-20261016`. Isso impede a publicação prematura ou acidental da `main`.
+- **Configuração do serviço (após autorização expressa):**
 
 | Campo | Valor |
 |---|---|
@@ -55,6 +57,7 @@ Configuração a aplicar somente depois do gate:
 | Nome proposto | `emr-v2-task5-api` (confirmar disponibilidade) |
 | Plano | Free, confirmar no painel antes de criar |
 | Branch | `task5/render-free-20261016`, SHA aprovado |
+| Modo de Deploy | **Manual Deploy → Deploy a specific commit** (informando o commit SHA isolado) |
 | Root Directory | raiz do repositório |
 | Dockerfile | `./Dockerfile` |
 | Docker Context | `.` |

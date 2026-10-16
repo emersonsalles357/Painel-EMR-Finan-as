@@ -39,3 +39,4 @@ secrets/
 Thumbs.db
 # Local backend performance evidence and original snapshots.
 .superpowers/
+__pycache__/

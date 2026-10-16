@@ -1,6 +1,6 @@
 # EMR Finanças V2
 
-Aplicação React + TypeScript com API Java 17 / Spring Boot 3.2.5, Spring Security stateless, JWT, BCrypt, roles USER/ADMIN, isolamento por usuário, perfil, recuperação de senha e dashboard com dados reais. Banco PostgreSQL, com Neon previsto para produção; schema gerenciado por Flyway V001–V005 e Hibernate `validate`.
+Aplicação React + TypeScript com API Java 17 / Spring Boot 4.1.1, Spring Security stateless, JWT, BCrypt, roles USER/ADMIN, isolamento por usuário, perfil, recuperação de senha e dashboard com dados reais. PostgreSQL 16, schema gerenciado por Flyway V001–V006 e Hibernate `validate`. Em produção, Flyway roda em processo separado do HTTP; veja [integração Task 5](deploy/TASK5_LOCAL_INTEGRATION.md).
 
 ## Execução local
 
@@ -25,7 +25,7 @@ cd "BackEnd/Back End/backend"
 ./mvnw clean package
 ```
 
-Frontend: `dist/`. Backend: `target/emr-financas-0.0.1-SNAPSHOT.jar`. Testes H2 não substituem PostgreSQL real. Consulte o relatório da Fase 10 para os resultados efetivamente executados e as limitações.
+Frontend: `dist/`. Backend: `target/app.jar`. Testes H2 não substituem PostgreSQL real. A validação PostgreSQL descartável e os comandos de migração estão no roteiro Task 5.
 
 ## Produção
 
@@ -35,6 +35,7 @@ Use `SPRING_PROFILES_ACTIVE=prod`. Configure no gerenciador de secrets:
 | --- | --- |
 | DB_URL | `jdbc:postgresql://<endpoint>.neon.tech/<database>`, sem query string ou credenciais embutidas |
 | DB_USERNAME / DB_PASSWORD | Credenciais do ambiente Neon autorizado |
+| DB_EXPECTED_HOST | Host Neon direto aprovado, exatamente igual ao host de DB_URL |
 | DB_SSL_MODE | `verify-full` (padrão); valida certificado e hostname usando truststore Java |
 | FRONTEND_URL | Origem HTTPS final, sem barra final, caminho, query ou fragmento; base do link de reset |
 | CORS_ALLOWED_ORIGINS | Opcional, lista explícita de origens HTTPS; quando ausente usa FRONTEND_URL; não definir como vazio |
@@ -54,7 +55,7 @@ O Dockerfile gera o backend com testes, usa Java 17 JRE e usuário sem root, ati
 
 ## Banco, segurança e operação
 
-Não altere V001–V005. `baseline-on-migrate=false`, `clean-disabled=true`, `ddl-auto=validate`. Iniciar a aplicação pode aplicar migrations pendentes: **execute o preflight antes de iniciar contra Neon**. Banco existente requer backup restaurado para teste, comparação e autorização antes de migrar. Não foi criada V006 sem evidência do banco real.
+Não altere V001–V006. `baseline-on-migrate=false`, `clean-disabled=true`, `ddl-auto=validate`. O profile `prod` exige Flyway desabilitado e a identidade restrita `emr_task5_app`; não recebe credenciais DDL. Execute o migrador de execução única somente após validar o alvo e obter autorização. Banco existente requer recuperação aprovada e comparação antes de migrar.
 
 O backend usa o IP do socket (`RemoteAddr`) e ignora headers encaminhados; sem arquitetura de proxy validada, todos os clientes de um proxy compartilham buckets. Rate limit em memória pressupõe uma instância; reinício limpa buckets. Não habilite headers globais sem revisar a fronteira de confiança. Veja o roteiro de operação.
 

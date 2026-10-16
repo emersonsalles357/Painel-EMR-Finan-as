@@ -26,6 +26,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.transaction.annotation.Transactional;
+import br.com.emr.emrfinancas.support.DisposablePostgresInitializer;
 
 import javax.sql.DataSource;
 import java.math.BigDecimal;
@@ -39,7 +42,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @ActiveProfiles("postgres-it")
-@EnabledIfEnvironmentVariable(named = "EMR_LOCAL_PG_URL", matches = ".+")
+@ContextConfiguration(initializers = DisposablePostgresInitializer.class)
+@EnabledIfEnvironmentVariable(named = "EMR_LOCAL_PG_ENABLED", matches = "true")
+@Transactional
 class PostgresDatabaseLiveIntegrationTests {
 
     @Autowired
@@ -77,7 +82,7 @@ class PostgresDatabaseLiveIntegrationTests {
 
     @BeforeEach
     void limparDados() {
-        jdbcTemplate.execute("TRUNCATE tb_emr_password_reset_token, tb_emr_investimento, tb_emr_recebimento, tb_emr_gasto, tb_emr_usuario RESTART IDENTITY CASCADE");
+        // Every test rolls back; no privileged cleanup connection or TRUNCATE.
         SecurityContextHolder.clearContext();
     }
 
@@ -94,15 +99,18 @@ class PostgresDatabaseLiveIntegrationTests {
     }
 
     @Test
-    @DisplayName("Valida que todas as 6 migrations Flyway foram aplicadas com sucesso no PostgreSQL")
+    @DisplayName("Runtime restrito nao acessa historico Flyway nem executa DDL")
     void validaFlywayMigrations() {
-        Integer migrationCount = jdbcTemplate.queryForObject(
-                "SELECT count(*) FROM flyway_schema_history WHERE success = true", Integer.class);
-        assertThat(migrationCount).isNotNull().isGreaterThanOrEqualTo(6);
-
-        List<String> versions = jdbcTemplate.queryForList(
-                "SELECT version FROM flyway_schema_history ORDER BY installed_rank", String.class);
-        assertThat(versions).contains("001", "002", "003", "004", "005", "006");
+        for (String sql : List.of("CREATE TABLE public.forbidden_runtime(id int)", "CREATE SCHEMA forbidden_runtime",
+                "ALTER TABLE public.tb_emr_usuario ADD COLUMN forbidden int", "DROP TABLE public.tb_emr_password_reset_token",
+                "TRUNCATE public.tb_emr_gasto", "SELECT * FROM public.flyway_schema_history")) {
+            assertThatThrownBy(() -> {
+                try (var connection = dataSource.getConnection(); var statement = connection.createStatement()) {
+                    statement.execute(sql);
+                }
+            }).isInstanceOf(java.sql.SQLException.class)
+                    .satisfies(ex -> assertThat(((java.sql.SQLException)ex).getSQLState()).isEqualTo("42501"));
+        }
     }
 
     @Test
